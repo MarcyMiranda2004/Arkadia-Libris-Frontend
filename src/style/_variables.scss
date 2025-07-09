@@ -1,0 +1,18 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables"; 
+
+$custom-colors: (
+    "a-primary": #F1EAD0,
+    "a-secondary": #191944,
+    "a-tertiary": #343356,
+    "a-quaternary": #16725B,
+    "a-black": #000000,
+    "a-white": #EDEDED,
+    "a-dark-gray": #4D4D4D,
+    "a-light-gray": #626262,
+    "a-white-gray": #BFBFBF,
+    "a-danger": #D60017,
+    
+);
+
+$theme-colors: map-merge($theme-colors, $custom-colors);
