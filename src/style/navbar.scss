@@ -1,0 +1,27 @@
+@import "../style/_variables.scss";
+
+.pointer {
+  cursor: pointer;
+}
+
+.active-link {
+  border-bottom: 3px solid map-get($theme-colors, "a-primary");
+}
+
+
+.person-dropdown {
+  .dropdown-menu {
+    background-color: map-get($theme-colors, "a-secondary");
+    border: 2px solid map-get($theme-colors, "a-quaternary");
+
+    .dropdown-item {
+      color: map-get($theme-colors, "a-primary") !important;
+
+      &:hover,
+      &:focus {
+        background-color: map-get($theme-colors, "a-tertiary");
+        color: map-get($theme-colors, "a-white-gray") !important;
+      }
+    }
+  }
+}
