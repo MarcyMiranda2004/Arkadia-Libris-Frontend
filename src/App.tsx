@@ -4,6 +4,7 @@ import "./style/bootstrap.scss";
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavbarComponent from "./components/NavbarComponent";
+import LoginPageComponent from "./components/login/LoginPageComponent";
 
 function App() {
   return (
@@ -13,7 +14,9 @@ function App() {
       </header>
 
       <main className="bg-a-primary">
-        <Routes></Routes>
+        <Routes>
+          <Route path="/auth/login" element={<LoginPageComponent />} />
+        </Routes>
       </main>
 
       <footer></footer>

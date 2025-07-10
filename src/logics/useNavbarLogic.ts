@@ -14,14 +14,30 @@ export const linkItems: LinkItem[] = [
   { label: "Manga",   href: "#manga"   },
 ];
 
-export function useNavbarLogic() {
+export const useNavbarLogic = () => {
   const [activeKey, setActiveKey] = useState<string>(linkItems[0].label);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
-  function onSelect(selectedKey: string | null) {
+  const onSelect = (selectedKey: string | null) => {
     if (selectedKey) {
       setActiveKey(selectedKey);
     }
   }
 
-  return { linkItems, activeKey, onSelect };
-}
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  }
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  }
+
+  return {
+    linkItems,
+    activeKey,
+    onSelect,
+    isLoggedIn,
+    handleLogin,
+    handleLogout,
+  };
+};

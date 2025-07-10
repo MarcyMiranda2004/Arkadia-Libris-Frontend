@@ -10,3 +10,7 @@ main {
   overflow-y: auto;
   padding-right: 10px;
 }
+
+.pointer {
+  cursor: pointer;
+}

@@ -1,13 +1,21 @@
 @import "../style/_variables.scss";
 
-.pointer {
-  cursor: pointer;
+
+.navLink:hover {
+  transform: scale(1.10);
 }
 
 .active-link {
   border-bottom: 3px solid map-get($theme-colors, "a-primary");
 }
 
+.searchBtn:active {
+  transform: scale(0.8);
+}
+
+.wishlist:hover, .cart:hover, .user:hover {
+  transform: scale(1.15);
+}
 
 .person-dropdown {
   .dropdown-menu {

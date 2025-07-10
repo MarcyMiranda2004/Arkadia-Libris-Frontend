@@ -1,14 +1,22 @@
 import "../style/navbar.scss";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import { Search, Heart, Cart, PersonCircle } from "react-bootstrap-icons";
 import logo from "../assets/png/logos/logo-no-write-no-bg.svg";
 
 const NavbarComponent = () => {
+  const navigate = useNavigate();
   const [activeLink, setActiveLink] = useState<string>("");
+
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // stato di autenticazione
+  const handleLogin = () => setIsLoggedIn(true); // login simulato
+  const handleLogout = () => setIsLoggedIn(false);
 
   return (
     <Navbar expand="lg" className="bg-a-secondary">
@@ -26,14 +34,17 @@ const NavbarComponent = () => {
           <p className="h1 arsenica">Arkadia Libris</p>
         </Navbar.Brand>
 
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle
+          aria-controls="basic-navbar-nav"
+          className="bg-a-primary me-5"
+        />
 
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto mx-3">
             <Nav.Link
               href="#novita"
               onClick={() => setActiveLink("novita")}
-              className={`text-a-primary h2 mx-2 fw-semibold pointer ${
+              className={`text-a-primary h2 mx-2 fw-semibold pointer navLink ${
                 activeLink === "novita" ? "active-link" : ""
               }`}
             >
@@ -43,7 +54,7 @@ const NavbarComponent = () => {
             <Nav.Link
               href="#popolari"
               onClick={() => setActiveLink("popolari")}
-              className={`text-a-primary h2 mx-2 fw-semibold pointer ${
+              className={`text-a-primary h2 mx-2 fw-semibold pointer navLink ${
                 activeLink === "popolari" ? "active-link" : ""
               }`}
             >
@@ -53,7 +64,7 @@ const NavbarComponent = () => {
             <Nav.Link
               href="#offerta"
               onClick={() => setActiveLink("offerta")}
-              className={`text-a-primary h2 mx-2 fw-semibold pointer ${
+              className={`text-a-primary h2 mx-2 fw-semibold pointer navLink ${
                 activeLink === "offerta" ? "active-link" : ""
               }`}
             >
@@ -63,7 +74,7 @@ const NavbarComponent = () => {
             <Nav.Link
               href="#libri"
               onClick={() => setActiveLink("libri")}
-              className={`text-a-primary h2 mx-2 fw-semibold pointer ${
+              className={`text-a-primary h2 mx-2 fw-semibold pointer navLink ${
                 activeLink === "libri" ? "active-link" : ""
               }`}
             >
@@ -73,7 +84,7 @@ const NavbarComponent = () => {
             <Nav.Link
               href="#comix"
               onClick={() => setActiveLink("comix")}
-              className={`text-a-primary h2 mx-2 fw-semibold pointer ${
+              className={`text-a-primary h2 mx-2 fw-semibold pointer navLink ${
                 activeLink === "comix" ? "active-link" : ""
               }`}
             >
@@ -83,7 +94,7 @@ const NavbarComponent = () => {
             <Nav.Link
               href="#manga"
               onClick={() => setActiveLink("manga")}
-              className={`text-a-primary h2 mx-2 fw-semibold pointer ${
+              className={`text-a-primary h2 mx-2 fw-semibold pointer navLink ${
                 activeLink === "manga" ? "active-link" : ""
               }`}
             >
@@ -91,27 +102,60 @@ const NavbarComponent = () => {
             </Nav.Link>
 
             {/* Search Tab */}
-            <Container className="bg-a-primary rounded-pill d-flex justify-content-center align-items-center mx-5 fw-semibold pointer">
-              <Search /> <p className="m-0 ms-2">Search</p>
-            </Container>
+            <Form className="d-flex mx-5">
+              <Form.Control
+                type="search"
+                placeholder="Cerca..."
+                className="rounded-pill rounded-end"
+                aria-label="Search"
+              />
+              <Button
+                variant="outline-success"
+                className="d-flex justify-content-center align-items-center bg-a-primary border-0 text-black rounded-pill rounded-start"
+              >
+                <Search size={20} className="searchBtn"></Search>
+              </Button>
+            </Form>
 
             {/* User Tab */}
-            <Container className="bg-a-primary rounded-pill d-flex justify-content-center align-items-center fw-semibold">
-              <Heart className="mx-2 h4 m-0 pointer" />
-              <Cart className="mx-2 h4 m-0 pointer" />
+            <div className="bg-a-primary rounded-pill d-flex justify-content-center align-items-center fw-semibold">
+              <Heart className="mx-2 pointer ms-3 wishlist" size={25} />
+              <Cart className="mx-2 pointer cart" size={25} />
+
+              {/* User Dropdown */}
               <NavDropdown
-                title={<PersonCircle className="h4 m-0 pointer" />}
+                title={<PersonCircle className="m-0 pointer user" size={25} />}
                 id="person-dropdown"
                 align="end"
                 className="person-dropdown"
               >
-                <NavDropdown.Item href="#profile">Profilo</NavDropdown.Item>
-                <NavDropdown.Item href="#orders">Ordini</NavDropdown.Item>
-                <NavDropdown.Item href="#orders">Libreria</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#logout">Logout</NavDropdown.Item>
+                {isLoggedIn ? (
+                  <>
+                    <NavDropdown.Item href="#profile">Profilo</NavDropdown.Item>
+                    <NavDropdown.Item href="#orders">Ordini</NavDropdown.Item>
+                    <NavDropdown.Item href="#library">
+                      Libreria
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item onClick={handleLogout}>
+                      Logout
+                    </NavDropdown.Item>
+                  </>
+                ) : (
+                  <>
+                    <NavDropdown.Item
+                      as="button"
+                      onClick={() => navigate("/auth/login")}
+                    >
+                      Accedi
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="#register">
+                      Registrati
+                    </NavDropdown.Item>
+                  </>
+                )}
               </NavDropdown>
-            </Container>
+            </div>
           </Nav>
         </Navbar.Collapse>
       </Container>
