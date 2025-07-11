@@ -1,6 +1,7 @@
 import "../style/navbar.scss";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -13,10 +14,8 @@ import logo from "../assets/png/logos/logo-no-write-no-bg.svg";
 const NavbarComponent = () => {
   const navigate = useNavigate();
   const [activeLink, setActiveLink] = useState<string>("");
-
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // stato di autenticazione
-  const handleLogin = () => setIsLoggedIn(true); // login simulato
-  const handleLogout = () => setIsLoggedIn(false);
+  const { token, logout } = useContext(AuthContext);
+  const isLoggedIn = !!token;
 
   return (
     <Navbar expand="lg" className="bg-a-secondary">
@@ -137,9 +136,7 @@ const NavbarComponent = () => {
                       Libreria
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item onClick={handleLogout}>
-                      Logout
-                    </NavDropdown.Item>
+                    <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
                   </>
                 ) : (
                   <>

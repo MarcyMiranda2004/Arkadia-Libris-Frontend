@@ -1,24 +1,37 @@
 import "../../style/login.scss";
-import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useState, useContext } from "react";
 import type { FormEvent } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import Container from "react-bootstrap/esm/Container";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
+import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { Google, Facebook, Instagram, Apple } from "react-bootstrap-icons";
+import {
+  Google,
+  Facebook,
+  Instagram,
+  Apple,
+  Eye,
+  EyeSlash,
+} from "react-bootstrap-icons";
+import { AuthContext } from "../../context/AuthContext";
 
-const LoginPageComponent = () => {
+const LoginPageComponent: React.FC = () => {
+  const { login: contextLogin } = useContext(AuthContext);
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
   const login = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
+    setError(null);
 
     const formData = new FormData(ev.currentTarget);
     const payload = Object.fromEntries(formData.entries());
 
-    const loginURL = "http://localhost:8080/auth/login";
-
     try {
-      const res = await fetch(loginURL, {
+      const res = await fetch("http://localhost:8080/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -26,18 +39,17 @@ const LoginPageComponent = () => {
 
       if (!res.ok) {
         const errorBody = await res.json();
-        console.error("Login fallito:", errorBody);
-        //mostrare un messaggio all’utente
+        setError(errorBody.message || "Login fallito");
         return;
       }
 
-      //Parse dei dati e salvataggio del token
       const data = await res.json();
       localStorage.setItem("authToken", data.token);
-      // aggiorna stato globale autenticazione
+      login(data.token);
+      contextLogin(data.token);
+      navigate("/user-profile");
     } catch (err) {
-      console.error("Errore di rete durante il login:", err);
-      // mostra fallback UI utente
+      setError("Errore di rete durante il login");
     }
   };
 
@@ -65,22 +77,34 @@ const LoginPageComponent = () => {
         >
           <Form.Control
             type="email"
+            name="email"
             placeholder="name@example.com"
             className="rounded-pill"
+            required
           />
         </FloatingLabel>
 
         <FloatingLabel
           controlId="floatingPassword"
           label="Password"
-          className="mt-2 w-50 formLabel rounded-pill"
+          className="mt-2 w-50 formLabel position-relative rounded-pill"
         >
           <Form.Control
-            type="password"
+            type={showPassword ? "text" : "password"}
+            name="password"
             placeholder="Password"
             className="rounded-pill"
+            required
           />
+          <InputGroup.Text
+            onClick={() => setShowPassword((v) => !v)}
+            className="bg-transparent border-0 position-absolute top-50 translate-middle-y end-0 me-3 pointer"
+          >
+            {showPassword ? <EyeSlash /> : <Eye />}
+          </InputGroup.Text>
         </FloatingLabel>
+
+        {error && <div className="text-danger mt-2 mb-3">{error}</div>}
 
         <div className="d-flex justify-content-between align-items-center mt-2 w-50 ">
           <Link
