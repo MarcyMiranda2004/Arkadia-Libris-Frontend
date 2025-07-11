@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import NavbarComponent from "./components/NavbarComponent";
 import LoginPageComponent from "./components/login-registration/LoginPageComponent";
+import RegisterPageComponent from "./components/login-registration/RegistrationPageComponent";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <main className="bg-a-primary">
           <Routes>
             <Route path="/auth/login" element={<LoginPageComponent />} />
+            <Route path="/auth/register" element={<RegisterPageComponent />} />
           </Routes>
         </main>
       </BrowserRouter>

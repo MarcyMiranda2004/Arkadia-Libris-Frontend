@@ -21,14 +21,14 @@ const NavbarComponent = () => {
     <Navbar expand="lg" className="bg-a-secondary">
       <Container className="p-0">
         <Navbar.Brand
-          href="#home"
+          onClick={() => navigate("/home")}
           className="text-a-primary d-flex justify-content-center align-items-center"
         >
           <img
             src={logo}
             alt="arkadia_libris_logo"
             style={{ width: "100px" }}
-            className="pointer"
+            className="pointer rounded-circle logo"
           />
           <p className="h1 arsenica">Arkadia Libris</p>
         </Navbar.Brand>
@@ -146,7 +146,10 @@ const NavbarComponent = () => {
                     >
                       Accedi
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="#register">
+                    <NavDropdown.Item
+                      as="button"
+                      onClick={() => navigate("/auth/register")}
+                    >
                       Registrati
                     </NavDropdown.Item>
                   </>
