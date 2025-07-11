@@ -23,7 +23,7 @@ const LoginPageComponent: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const login = async (ev: FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     setError(null);
 
@@ -44,9 +44,9 @@ const LoginPageComponent: React.FC = () => {
       }
 
       const data = await res.json();
-      localStorage.setItem("authToken", data.token);
-      login(data.token);
+      // Update context (and localStorage inside it)
       contextLogin(data.token);
+      // Redirect to user profile or dashboard
       navigate("/user-profile");
     } catch (err) {
       setError("Errore di rete durante il login");
@@ -67,7 +67,7 @@ const LoginPageComponent: React.FC = () => {
       </div>
       <h1 className="arsenica text-a-secondary ">Accedi al tuo account</h1>
       <form
-        onSubmit={login}
+        onSubmit={handleLogin}
         className="w-100 d-flex flex-column align-middle align-items-center justify-content-center mt-5 "
       >
         <FloatingLabel
@@ -164,5 +164,4 @@ const LoginPageComponent: React.FC = () => {
     </div>
   );
 };
-
 export default LoginPageComponent;
