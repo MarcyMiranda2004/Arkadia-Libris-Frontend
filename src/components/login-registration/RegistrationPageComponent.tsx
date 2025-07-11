@@ -31,7 +31,6 @@ const RegisterPageComponent: React.FC = () => {
       string
     >;
 
-    // trasforma la data
     if (payload.bornDate) {
       const [year, month, day] = payload.bornDate.split("-");
       payload.bornDate = `${day}/${month}/${year}`;
