@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import NotFoundPage from "./components/NotFoundPageComponent";
 import NavbarComponent from "./components/NavbarComponent";
+import FooterComponent from "./components/FooterComponent";
 import LoginPageComponent from "./components/login-registration/LoginPageComponent";
 import RegisterPageComponent from "./components/login-registration/RegistrationPageComponent";
 import UserPageComponent from "./components/UserProfilePageComponent";
@@ -30,9 +31,12 @@ function App() {
             <Route path="/home" element={<HomePageComponent />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
-        </main>
 
-        <footer></footer>
+          {/* il footer si trova qui poiché a causa di un bug non viene renderizzato se messo dopo il main */}
+          <footer className="bg-a-secondary vw-100 fixed-bottom">
+            <FooterComponent />
+          </footer>
+        </main>
       </BrowserRouter>
     </AuthProvider>
   );

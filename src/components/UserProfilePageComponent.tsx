@@ -18,7 +18,12 @@ import { AuthContext } from "../context/AuthContext";
 import type { User } from "../type/UserObject";
 import type { Address } from "../type/AddressObject";
 import "../style/userProfilePage.scss";
-import { PencilFill, PencilSquare, Trash3Fill } from "react-bootstrap-icons";
+import {
+  PencilFill,
+  PencilSquare,
+  Trash3Fill,
+  Plus,
+} from "react-bootstrap-icons";
 
 const API = "http://localhost:8080";
 
@@ -197,15 +202,14 @@ const UserPageComponent: React.FC = () => {
             <h3 className="arsenica-bold p-3 border-bottom border-2 border-a-tertiary m-0">
               Indirizzi
               <Button
-                className="float-end"
-                size="sm"
+                className="float-end p-0 bg-a-quaternary"
                 onClick={() => {
                   setAddrForm({});
                   setEditingAddr(null);
                   setShowAddrModal(true);
                 }}
               >
-                + Nuovo
+                <Plus size={30} />
               </Button>
             </h3>
 

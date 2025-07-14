@@ -2,12 +2,15 @@ import "../style/navbar.scss";
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import {
+  Button,
+  Form,
+  Image,
+  Container,
+  Nav,
+  Navbar,
+  NavDropdown,
+} from "react-bootstrap";
 import { Search, Heart, Cart, PersonCircle } from "react-bootstrap-icons";
 import logo from "../assets/png/logos/logo-no-write-no-bg.svg";
 
@@ -24,7 +27,7 @@ const NavbarComponent = () => {
           onClick={() => navigate("/home")}
           className="text-a-primary d-flex justify-content-center align-items-center"
         >
-          <img
+          <Image
             src={logo}
             alt="arkadia_libris_logo"
             style={{ width: "100px" }}
