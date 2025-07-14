@@ -1,3 +1,4 @@
+// src/components/UserPageComponent.tsx
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -12,12 +13,12 @@ import {
   FloatingLabel,
   Image,
 } from "react-bootstrap";
+import { parseISO, format, isValid } from "date-fns";
 import { AuthContext } from "../context/AuthContext";
-import { parseISO, format } from "date-fns";
 import type { User } from "../type/UserObject";
 import type { Address } from "../type/AddressObject";
 
-const API = process.env.REACT_APP_API_URL || "http://localhost:8080";
+const API = "http://localhost:8080";
 
 const UserPageComponent: React.FC = () => {
   const { token, userId: ctxId } = useContext(AuthContext);
@@ -29,7 +30,6 @@ const UserPageComponent: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Stati per le varie modali
   const [showEdit, setShowEdit] = useState(false);
   const [formUser, setFormUser] = useState<Partial<User>>({});
   const [showEmail, setShowEmail] = useState(false);
@@ -55,15 +55,28 @@ const UserPageComponent: React.FC = () => {
       setLoading(false);
       return;
     }
+
     (async () => {
       try {
-        const [uRes, aRes] = await Promise.all([
-          fetch(`${API}/users/${uid}`, { headers: authHeader }),
-          fetch(`${API}/users/${uid}/addresses`, { headers: authHeader }),
-        ]);
-        if (!uRes.ok || !aRes.ok) throw new Error("Errore caricamento dati");
-        setUser(await uRes.json());
-        setAddresses(await aRes.json());
+        // Fetch user DTO
+        const res = await fetch(`${API}/users/dto/${uid}`, {
+          headers: authHeader,
+        });
+        if (!res.ok) {
+          throw new Error(`Errore caricamento dati: ${res.status}`);
+        }
+        const userData: User = await res.json();
+        setUser(userData);
+
+        // Fetch addresses
+        const aRes = await fetch(`${API}/users/${uid}/addresses`, {
+          headers: authHeader,
+        });
+        if (!aRes.ok) {
+          throw new Error(`Errore caricamento indirizzi: ${aRes.status}`);
+        }
+        const addrs = await aRes.json();
+        setAddresses(addrs);
       } catch (e: any) {
         setError(e.message);
       } finally {
@@ -72,23 +85,24 @@ const UserPageComponent: React.FC = () => {
     })();
   }, [uid]);
 
+  // Stub handlers; implement as needed
   const handleEditSubmit = async () => {
-    /* … PUT /users/:uid … */
+    /* … */
   };
   const handleEmailSubmit = async () => {
-    /* … PUT /users/:uid/email … */
+    /* … */
   };
   const handlePhoneSubmit = async () => {
-    /* … PUT /users/:uid … */
+    /* … */
   };
   const handleAvatarSubmit = async () => {
-    /* … PATCH /users/:uid/avatar … */
+    /* … */
   };
   const handleAddrSave = async () => {
-    /* … POST|PUT /users/:uid/addresses … */
+    /* … */
   };
   const handleAddrDelete = async (id: number) => {
-    /* … DELETE /users/:uid/addresses/:id … */
+    /* … */
   };
 
   if (loading) return <Container>Caricamento in corso…</Container>;
@@ -98,7 +112,7 @@ const UserPageComponent: React.FC = () => {
   return (
     <Container className="mt-4">
       <Row>
-        {/* Colonna avatar + dati personali */}
+        {/* Avatar & personal info */}
         <Col md={4}>
           <Card>
             <Card.Body className="text-center">
@@ -116,9 +130,13 @@ const UserPageComponent: React.FC = () => {
               </Card.Title>
               <Card.Text>
                 Nato il:{" "}
-                {user.bornDate
-                  ? format(parseISO(user.bornDate), "dd/MM/yyyy")
-                  : "—"}
+                {(() => {
+                  if (!user.bornDate) return "—";
+                  const date = parseISO(user.bornDate);
+                  return isValid(date)
+                    ? format(date, "dd/MM/yyyy")
+                    : user.bornDate;
+                })()}
                 <br />
                 Username: {user.username}
                 <br />
@@ -157,7 +175,7 @@ const UserPageComponent: React.FC = () => {
           </Card>
         </Col>
 
-        {/* Colonna indirizzi */}
+        {/* Addresses */}
         <Col md={8}>
           <Card>
             <Card.Header>
@@ -179,7 +197,8 @@ const UserPageComponent: React.FC = () => {
                 <ListGroup.Item key={a.id}>
                   <strong>{a.name}</strong>
                   <br />
-                  {a.street}, {a.city} ({a.province})<br />
+                  {a.street}, {a.city} ({a.province})
+                  <br />
                   {a.country} – {a.postalCode}
                   <br />
                   <Button
@@ -206,7 +225,7 @@ const UserPageComponent: React.FC = () => {
         </Col>
       </Row>
 
-      {/* → Inserisci qui tutti i <Modal> per edit/profile/email/phone/avatar/address ← */}
+      {/* TODO: insert Modal components here (Edit profile, Change email, Change phone, Change avatar, Address form) */}
     </Container>
   );
 };
