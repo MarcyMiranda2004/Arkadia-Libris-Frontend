@@ -19,7 +19,7 @@ function App() {
           <NavbarComponent />
         </header>
 
-        <main className="bg-a-primary">
+        <main className="bg-a-primary p-1">
           <Routes>
             <Route path="/auth/login" element={<LoginPageComponent />} />
             <Route path="/auth/register" element={<RegisterPageComponent />} />

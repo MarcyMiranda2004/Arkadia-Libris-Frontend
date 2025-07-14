@@ -15,6 +15,11 @@
   font-family: "Arsenica Antiqua", serif;
 }
 
+.arsenica-bold {
+  font-family: "Arsenica Antiqua", serif;
+  font-weight: bold;
+}
+
 .pointer {
   cursor: pointer;
 }
