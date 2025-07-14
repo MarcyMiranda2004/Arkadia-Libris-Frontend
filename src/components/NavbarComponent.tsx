@@ -14,7 +14,7 @@ import logo from "../assets/png/logos/logo-no-write-no-bg.svg";
 const NavbarComponent = () => {
   const navigate = useNavigate();
   const [activeLink, setActiveLink] = useState<string>("");
-  const { token, logout } = useContext(AuthContext);
+  const { token, userId, logout } = useContext(AuthContext);
   const isLoggedIn = !!token;
 
   return (
@@ -132,24 +132,25 @@ const NavbarComponent = () => {
                   <>
                     <NavDropdown.Item
                       as="button"
-                      onClick={() => navigate("/user-profile")}
+                      onClick={() => navigate(`/user-profile/${userId}`)}
                     >
                       Profilo
                     </NavDropdown.Item>
 
                     <NavDropdown.Item
                       as="button"
-                      onClick={() => navigate("/user-orders")}
+                      onClick={() => navigate(`/user-orders/${userId}`)}
                     >
                       Ordini
                     </NavDropdown.Item>
 
                     <NavDropdown.Item
                       as="button"
-                      onClick={() => navigate("/user-library")}
+                      onClick={() => navigate(`/user-library/${userId}`)}
                     >
                       Libreria
                     </NavDropdown.Item>
+
                     <NavDropdown.Divider />
                     <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
                   </>
@@ -161,6 +162,7 @@ const NavbarComponent = () => {
                     >
                       Accedi
                     </NavDropdown.Item>
+
                     <NavDropdown.Item
                       as="button"
                       onClick={() => navigate("/auth/register")}

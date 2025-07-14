@@ -17,6 +17,11 @@ import {
 } from "react-bootstrap-icons";
 import { AuthContext } from "../../context/AuthContext";
 
+interface LoginResponse {
+  token: string;
+  userId: number;
+}
+
 const LoginPageComponent: React.FC = () => {
   const { login: contextLogin } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
@@ -43,12 +48,10 @@ const LoginPageComponent: React.FC = () => {
         return;
       }
 
-      const data = await res.json();
-      // Update context (and localStorage inside it)
-      contextLogin(data.token);
-      // Redirect to user profile or dashboard
-      navigate("/user-profile");
-    } catch (err) {
+      const { token, userId } = (await res.json()) as LoginResponse;
+      contextLogin(token, userId);
+      navigate(`/user-profile/${userId}`);
+    } catch {
       setError("Errore di rete durante il login");
     }
   };
