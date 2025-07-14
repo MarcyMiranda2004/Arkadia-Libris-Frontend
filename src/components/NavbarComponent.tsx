@@ -130,9 +130,24 @@ const NavbarComponent = () => {
               >
                 {isLoggedIn ? (
                   <>
-                    <NavDropdown.Item href="#profile">Profilo</NavDropdown.Item>
-                    <NavDropdown.Item href="#orders">Ordini</NavDropdown.Item>
-                    <NavDropdown.Item href="#library">
+                    <NavDropdown.Item
+                      as="button"
+                      onClick={() => navigate("/user-profile")}
+                    >
+                      Profilo
+                    </NavDropdown.Item>
+
+                    <NavDropdown.Item
+                      as="button"
+                      onClick={() => navigate("/user-orders")}
+                    >
+                      Ordini
+                    </NavDropdown.Item>
+
+                    <NavDropdown.Item
+                      as="button"
+                      onClick={() => navigate("/user-library")}
+                    >
                       Libreria
                     </NavDropdown.Item>
                     <NavDropdown.Divider />

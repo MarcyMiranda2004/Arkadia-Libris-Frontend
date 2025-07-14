@@ -7,6 +7,7 @@ import { AuthProvider } from "./context/AuthContext";
 import NavbarComponent from "./components/NavbarComponent";
 import LoginPageComponent from "./components/login-registration/LoginPageComponent";
 import RegisterPageComponent from "./components/login-registration/RegistrationPageComponent";
+import UserPageComponent from "./components/UserProfilePageComponent";
 
 function App() {
   return (
@@ -20,6 +21,10 @@ function App() {
           <Routes>
             <Route path="/auth/login" element={<LoginPageComponent />} />
             <Route path="/auth/register" element={<RegisterPageComponent />} />
+            <Route
+              path="/user-profile/:userId"
+              element={<UserPageComponent />}
+            />
           </Routes>
         </main>
       </BrowserRouter>
