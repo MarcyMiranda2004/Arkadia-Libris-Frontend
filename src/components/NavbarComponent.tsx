@@ -47,7 +47,7 @@ const NavbarComponent: React.FC = () => {
               (section) => (
                 <Nav.Link
                   key={section}
-                  href={`#${section}`}
+                  href={`/home/#${section}`}
                   onClick={() => setActiveLink(section)}
                   className={`text-a-primary h2 mx-2 fw-semibold pointer navLink ${
                     activeLink === section ? "active-link" : ""
@@ -58,6 +58,7 @@ const NavbarComponent: React.FC = () => {
               )
             )}
 
+            {/* Search Tab */}
             <Form className="d-flex mx-5">
               <Form.Control
                 type="search"
@@ -80,7 +81,7 @@ const NavbarComponent: React.FC = () => {
                 onClick={() => navigate("/users/wishlist")}
               />
               <Cart
-                className="mx-2 pointer"
+                className="mx-2 pointer cart"
                 size={25}
                 onClick={() => navigate("/users/cart")}
               />
