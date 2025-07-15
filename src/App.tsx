@@ -31,12 +31,11 @@ function App() {
             <Route path="/home" element={<HomePageComponent />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
-
-          {/* il footer si trova qui poiché a causa di un bug non viene renderizzato se messo dopo il main */}
-          <footer className="bg-a-secondary vw-100 fixed-bottom">
-            <FooterComponent />
-          </footer>
         </main>
+
+        <footer className="bg-a-secondary vw-100">
+          <FooterComponent />
+        </footer>
       </BrowserRouter>
     </AuthProvider>
   );

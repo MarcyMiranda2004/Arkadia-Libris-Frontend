@@ -17,3 +17,41 @@
         transform: scale(0.95);
     }
 }
+
+.icon {
+transition: transform 0.12s ease-in-out;
+
+    &:hover {
+        transform: scale(1.15);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+}
+
+.customBtn {
+    transition: transform 0.12s ease-in-out,
+        box-shadow 0.2s ease-in-out;
+
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+}
+
+.formLabel {
+    transition: box-shadow 0.2s ease-in-out;
+    &:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
+    }
+    &:focus {
+        outline: none !important;
+        border: 2px solid map-get($theme-colors, "a-quaternary") !important;
+    }
+}
+
