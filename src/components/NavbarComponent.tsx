@@ -1,109 +1,63 @@
-import "../style/navbar.scss";
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import {
-  Button,
-  Form,
-  Image,
+  Navbar,
   Container,
   Nav,
-  Navbar,
   NavDropdown,
+  Form,
+  Button,
+  Image,
 } from "react-bootstrap";
 import { Search, Heart, Cart, PersonCircle } from "react-bootstrap-icons";
 import logo from "../assets/png/logos/logo-no-write-no-bg.svg";
+import "../style/navbar.scss";
 
-const NavbarComponent = () => {
+const NavbarComponent: React.FC = () => {
   const navigate = useNavigate();
   const [activeLink, setActiveLink] = useState<string>("");
-  const { token, userId, logout } = useContext(AuthContext);
+  const { token, userId, userRole, logout } = useContext(AuthContext);
   const isLoggedIn = !!token;
+  const isBackofficeUser = userRole === "ADMIN" || userRole === "STAFF";
 
   return (
     <Navbar expand="lg" className="bg-a-secondary">
       <Container className="p-0">
         <Navbar.Brand
           onClick={() => navigate("/home")}
-          className="text-a-primary d-flex justify-content-center align-items-center"
+          className="text-a-primary d-flex align-items-center pointer"
         >
           <Image
             src={logo}
             alt="arkadia_libris_logo"
             style={{ width: "100px" }}
-            className="pointer rounded-circle logo"
+            className="rounded-circle logo"
           />
-          <p className="h1 arsenica">Arkadia Libris</p>
+          <p className="h1 arsenica mb-0">Arkadia Libris</p>
         </Navbar.Brand>
 
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"
           className="bg-a-primary me-5"
         />
-
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto mx-3">
-            <Nav.Link
-              href="#novita"
-              onClick={() => setActiveLink("novita")}
-              className={`text-a-primary h2 mx-2 fw-semibold pointer navLink ${
-                activeLink === "novita" ? "active-link" : ""
-              }`}
-            >
-              Novità
-            </Nav.Link>
+            {["novita", "popolari", "offerta", "libri", "comix", "manga"].map(
+              (section) => (
+                <Nav.Link
+                  key={section}
+                  href={`#${section}`}
+                  onClick={() => setActiveLink(section)}
+                  className={`text-a-primary h2 mx-2 fw-semibold pointer navLink ${
+                    activeLink === section ? "active-link" : ""
+                  }`}
+                >
+                  {section.charAt(0).toUpperCase() + section.slice(1)}
+                </Nav.Link>
+              )
+            )}
 
-            <Nav.Link
-              href="#popolari"
-              onClick={() => setActiveLink("popolari")}
-              className={`text-a-primary h2 mx-2 fw-semibold pointer navLink ${
-                activeLink === "popolari" ? "active-link" : ""
-              }`}
-            >
-              Popolari
-            </Nav.Link>
-
-            <Nav.Link
-              href="#offerta"
-              onClick={() => setActiveLink("offerta")}
-              className={`text-a-primary h2 mx-2 fw-semibold pointer navLink ${
-                activeLink === "offerta" ? "active-link" : ""
-              }`}
-            >
-              Offerte
-            </Nav.Link>
-
-            <Nav.Link
-              href="#libri"
-              onClick={() => setActiveLink("libri")}
-              className={`text-a-primary h2 mx-2 fw-semibold pointer navLink ${
-                activeLink === "libri" ? "active-link" : ""
-              }`}
-            >
-              Libri
-            </Nav.Link>
-
-            <Nav.Link
-              href="#comix"
-              onClick={() => setActiveLink("comix")}
-              className={`text-a-primary h2 mx-2 fw-semibold pointer navLink ${
-                activeLink === "comix" ? "active-link" : ""
-              }`}
-            >
-              Comix
-            </Nav.Link>
-
-            <Nav.Link
-              href="#manga"
-              onClick={() => setActiveLink("manga")}
-              className={`text-a-primary h2 mx-2 fw-semibold pointer navLink ${
-                activeLink === "manga" ? "active-link" : ""
-              }`}
-            >
-              Manga
-            </Nav.Link>
-
-            {/* Search Tab */}
             <Form className="d-flex mx-5">
               <Form.Control
                 type="search"
@@ -113,20 +67,26 @@ const NavbarComponent = () => {
               />
               <Button
                 variant="outline-success"
-                className="d-flex justify-content-center align-items-center bg-a-primary border-0 text-black rounded-pill rounded-start"
+                className="d-flex align-items-center justify-content-center bg-a-primary border-0 text-black rounded-pill rounded-start"
               >
-                <Search size={20} className="searchBtn"></Search>
+                <Search size={20} />
               </Button>
             </Form>
 
-            {/* User Tab */}
-            <div className="bg-a-primary rounded-pill d-flex justify-content-center align-items-center fw-semibold">
-              <Heart className="mx-2 pointer ms-3 wishlist" size={25} />
-              <Cart className="mx-2 pointer cart" size={25} />
+            <div className="bg-a-primary rounded-pill d-flex align-items-center fw-semibold">
+              <Heart
+                className="mx-2 pointer ms-3 wishlist"
+                size={25}
+                onClick={() => navigate("/users/wishlist")}
+              />
+              <Cart
+                className="mx-2 pointer"
+                size={25}
+                onClick={() => navigate("/users/cart")}
+              />
 
-              {/* User Dropdown */}
               <NavDropdown
-                title={<PersonCircle className="m-0 pointer user" size={25} />}
+                title={<PersonCircle size={25} className="pointer user" />}
                 id="person-dropdown"
                 align="end"
                 className="person-dropdown"
@@ -139,23 +99,29 @@ const NavbarComponent = () => {
                     >
                       Profilo
                     </NavDropdown.Item>
-
-                    <NavDropdown.Item
-                      as="button"
-                      onClick={() => navigate(`/user-orders/${userId}`)}
-                    >
-                      Ordini
-                    </NavDropdown.Item>
-
+                    {isBackofficeUser && (
+                      <NavDropdown.Item
+                        as="button"
+                        onClick={() => navigate("/backoffice")}
+                      >
+                        Backoffice
+                      </NavDropdown.Item>
+                    )}
                     <NavDropdown.Item
                       as="button"
                       onClick={() => navigate(`/user-library/${userId}`)}
                     >
                       Libreria
                     </NavDropdown.Item>
-
                     <NavDropdown.Divider />
-                    <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+                    <NavDropdown.Item
+                      onClick={() => {
+                        logout();
+                        navigate("/auth/login");
+                      }}
+                    >
+                      Logout
+                    </NavDropdown.Item>
                   </>
                 ) : (
                   <>
@@ -165,7 +131,6 @@ const NavbarComponent = () => {
                     >
                       Accedi
                     </NavDropdown.Item>
-
                     <NavDropdown.Item
                       as="button"
                       onClick={() => navigate("/auth/register")}

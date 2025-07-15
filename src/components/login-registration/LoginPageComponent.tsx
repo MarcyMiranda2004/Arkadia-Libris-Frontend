@@ -1,8 +1,6 @@
-import "../../style/login.scss";
-import React, { useState, useContext } from "react";
-import type { FormEvent } from "react";
+import React, { useState, useContext, FormEvent } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import Container from "react-bootstrap/esm/Container";
+import Container from "react-bootstrap/Container";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
@@ -16,11 +14,14 @@ import {
   EyeSlash,
 } from "react-bootstrap-icons";
 import { AuthContext } from "../../context/AuthContext";
+import "../../style/login.scss";
 
 interface LoginResponse {
   token: string;
   userId: number;
 }
+
+const API = "http://localhost:8080";
 
 const LoginPageComponent: React.FC = () => {
   const { login: contextLogin } = useContext(AuthContext);
@@ -36,7 +37,8 @@ const LoginPageComponent: React.FC = () => {
     const payload = Object.fromEntries(formData.entries());
 
     try {
-      const res = await fetch("http://localhost:8080/auth/login", {
+      // 1) autenticazione
+      const res = await fetch(`${API}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -49,7 +51,17 @@ const LoginPageComponent: React.FC = () => {
       }
 
       const { token, userId } = (await res.json()) as LoginResponse;
-      contextLogin(token, userId);
+
+      // 2) recupero ruolo
+      const profileRes = await fetch(`${API}/users/dto/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const profile = (await profileRes.json()) as { role: string };
+
+      // 3) aggiorno context
+      contextLogin(token, userId, profile.role);
+
+      // 4) redirect
       navigate(`/user-profile/${userId}`);
     } catch {
       setError("Errore di rete durante il login");
@@ -57,8 +69,8 @@ const LoginPageComponent: React.FC = () => {
   };
 
   return (
-    <div className="d-flex flex-column align-middle align-items-center justify-content-center mt-5">
-      <div className="d-flex flex-column justify-content-center align-items-center mb-3">
+    <div className="d-flex flex-column align-items-center justify-content-center mt-5">
+      <div className="d-flex flex-column align-items-center mb-3">
         <img
           src="https://i.pinimg.com/originals/29/cd/bd/29cdbdcc53da3e3c988ca9544fbfa03e.gif"
           alt="book_animation"
@@ -68,10 +80,10 @@ const LoginPageComponent: React.FC = () => {
           "tell me who you are, oh great seeker"
         </p>
       </div>
-      <h1 className="arsenica text-a-secondary ">Accedi al tuo account</h1>
+      <h1 className="arsenica text-a-secondary">Accedi al tuo account</h1>
       <form
         onSubmit={handleLogin}
-        className="w-100 d-flex flex-column align-middle align-items-center justify-content-center mt-5 "
+        className="w-100 d-flex flex-column align-items-center mt-5"
       >
         <FloatingLabel
           controlId="floatingInput"
@@ -109,12 +121,12 @@ const LoginPageComponent: React.FC = () => {
 
         {error && <div className="text-danger mt-2 mb-3">{error}</div>}
 
-        <div className="d-flex justify-content-between align-items-center mt-2 w-50 ">
+        <div className="d-flex justify-content-between align-items-center mt-2 w-50">
           <Link
             to="/auth/forgot-password"
             className="ms-4 text-decoration-none text-a-tertiary border-bottom border-a-tertiary small"
           >
-            Hai dimenticato la Password ?
+            Hai dimenticato la Password?
           </Link>
           <Link
             to="/auth/register"
@@ -131,33 +143,31 @@ const LoginPageComponent: React.FC = () => {
           Accedi
         </Button>
       </form>
+
       <div className="w-25 border-top border-2 border-a-tertiary mt-4 pt-4 d-flex flex-column align-items-center">
         <Button
-          className="w-50 my-2 rounded-pill otherLoginBtn d-flex justify-content-center align-items-center"
+          className="w-50 my-2 rounded-pill otherLoginBtn d-flex align-items-center justify-content-center"
           style={{ background: "#677DF9" }}
         >
           <Google size={16} className="me-2" />
           Accedi con Google
         </Button>
-
         <Button
-          className="w-50 my-2 rounded-pill otherLoginBtn d-flex justify-content-center align-items-center"
+          className="w-50 my-2 rounded-pill otherLoginBtn d-flex align-items-center justify-content-center"
           style={{ background: "#013475" }}
         >
           <Facebook size={16} className="me-2" />
           Accedi con Facebook
         </Button>
-
         <Button
-          className="w-50 my-2 rounded-pill otherLoginBtn d-flex justify-content-center align-items-center"
+          className="w-50 my-2 rounded-pill otherLoginBtn d-flex align-items-center justify-content-center"
           style={{ background: "#EB508D" }}
         >
           <Instagram size={16} className="me-2" />
           Accedi con Instagram
         </Button>
-
         <Button
-          className="w-50 my-2 rounded-pill otherLoginBtn d-flex justify-content-center align-items-center"
+          className="w-50 my-2 rounded-pill otherLoginBtn d-flex align-items-center justify-content-center"
           style={{ background: "#080808" }}
         >
           <Apple size={16} className="me-2" />
@@ -167,4 +177,5 @@ const LoginPageComponent: React.FC = () => {
     </div>
   );
 };
+
 export default LoginPageComponent;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, type FormEvent } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   Container,
   Row,
@@ -15,6 +15,7 @@ import { parseISO, format, isValid } from "date-fns";
 import { AuthContext } from "../context/AuthContext";
 import type { User } from "../type/UserObject";
 import type { Address } from "../type/AddressObject";
+import type { OrderDto } from "../type/OrderObject";
 import "../style/userProfilePage.scss";
 import {
   PencilFill,
@@ -32,6 +33,7 @@ const UserPageComponent: React.FC = () => {
 
   const [user, setUser] = useState<User | null>(null);
   const [addresses, setAddresses] = useState<Address[]>([]);
+  const [orders, setOrders] = useState<OrderDto[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -63,23 +65,23 @@ const UserPageComponent: React.FC = () => {
 
     (async () => {
       try {
-        const res = await fetch(`${API}/users/dto/${uid}`, {
-          headers: authHeader,
-        });
-        if (!res.ok) {
-          throw new Error(`Errore caricamento dati: ${res.status}`);
-        }
-        const userData: User = await res.json();
-        setUser(userData);
+        // 1) profilo + indirizzi
+        const [uRes, aRes] = await Promise.all([
+          fetch(`${API}/users/dto/${uid}`, { headers: authHeader }),
+          fetch(`${API}/users/${uid}/addresses`, { headers: authHeader }),
+        ]);
+        if (!uRes.ok) throw new Error(`Errore profilo: ${uRes.status}`);
+        if (!aRes.ok) throw new Error(`Errore indirizzi: ${aRes.status}`);
+        setUser(await uRes.json());
+        setAddresses(await aRes.json());
 
-        const aRes = await fetch(`${API}/users/${uid}/addresses`, {
+        // 2) ordini (pagina 0, size 10)
+        const oRes = await fetch(`${API}/users/${uid}/orders?page=0&size=10`, {
           headers: authHeader,
         });
-        if (!aRes.ok) {
-          throw new Error(`Errore caricamento indirizzi: ${aRes.status}`);
-        }
-        const addrs = await aRes.json();
-        setAddresses(addrs);
+        if (!oRes.ok) throw new Error(`Errore ordini: ${oRes.status}`);
+        const page = await oRes.json();
+        setOrders(page.content as OrderDto[]);
       } catch (e: any) {
         setError(e.message);
       } finally {
@@ -364,11 +366,11 @@ const UserPageComponent: React.FC = () => {
 
         {/* Addresses */}
         <Container className="p-0 mb-3">
-          <div className="bg-secondary-subtle rounded p-0 userInfoTab border border-1 border-a-tertiary">
-            <h3 className="arsenica-bold p-3 border-bottom border-2 border-a-tertiary m-0">
+          <div className="bg-a-secondary text-a-primary rounded p-0 userInfoTab border border-1 border-a-tertiary">
+            <h3 className="arsenica-bold p-3 border-bottom border-2 border-a-tertiary m-0 ">
               Indirizzi
               <Button
-                className="float-end p-0 bg-a-quaternary customBtn"
+                className="float-end p-0 bg-a-quaternary customBtn border-0"
                 onClick={() => {
                   setAddrForm({});
                   setEditingAddr(null);
@@ -408,6 +410,52 @@ const UserPageComponent: React.FC = () => {
                 </ListGroup.Item>
               ))}
             </ListGroup>
+          </div>
+        </Container>
+
+        {/* Orders */}
+        <Container className="p-0 mb-3">
+          <div className="bg-a-secondary text-a-primary rounded p-0 userInfoTab border border-1 border-a-tertiary">
+            <h3 className="arsenica-bold p-3 border-bottom border-2 border-a-tertiary m-0">
+              Ordini
+            </h3>
+            {orders.length === 0 ? (
+              <p className="arsenica">Nessun ordine effettuato</p>
+            ) : (
+              <ListGroup variant="flush">
+                {orders.map((o) => (
+                  <ListGroup.Item key={o.orderId} className="py-2">
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div>
+                        <strong>Ordine #{o.orderId}</strong>
+                        <br />
+                        {isValid(parseISO(o.orderDate))
+                          ? format(parseISO(o.orderDate), "dd/MM/yyyy")
+                          : o.orderDate}{" "}
+                        – {o.orderStatus}
+                        <br />
+                        Totale: €{o.totalAmmount.toFixed(2)}
+                        <br />
+                        Articoli: {o.items.length}
+                        <br />
+                        <Link
+                          to={`/users/${uid}/order-details`}
+                          className="me-2 text-a-quaternary"
+                        >
+                          Dettagli
+                        </Link>
+                        <Link
+                          to={`/users/${uid}/cart`}
+                          className="ms-2 text-a-quaternary"
+                        >
+                          Riordina
+                        </Link>
+                      </div>
+                    </div>
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
+            )}
           </div>
         </Container>
       </Row>
