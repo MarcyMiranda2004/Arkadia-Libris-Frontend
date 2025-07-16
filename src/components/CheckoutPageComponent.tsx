@@ -1,4 +1,3 @@
-// src/components/CheckoutPage.tsx
 import React, { useState, useContext, useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import { AuthContext } from "../context/AuthContext";
@@ -49,7 +48,6 @@ const CheckoutForm: React.FC = () => {
   );
   const [billingAddressId, setBillingAddressId] = useState<number | null>(null);
 
-  // Fetch user addresses on mount
   useEffect(() => {
     async function fetchAddresses() {
       try {
@@ -86,7 +84,6 @@ const CheckoutForm: React.FC = () => {
     setError(null);
 
     try {
-      // 1. Crea ordine nel backend con indirizzi
       const orderRes = await fetch(
         `http://localhost:8080/users/${userId}/orders/checkout`,
         {
@@ -161,7 +158,7 @@ const CheckoutForm: React.FC = () => {
                 className="d-flex justify-content-between"
               >
                 <span>
-                  {item.title} × {item.quantity}
+                  {item.productName} × {item.quantity}
                 </span>
                 <span>€{(item.price * item.quantity).toFixed(2)}</span>
               </div>
@@ -216,7 +213,7 @@ const CheckoutForm: React.FC = () => {
               <Button
                 type="submit"
                 disabled={!stripe || loadingOrder}
-                className="mt-3"
+                className="mt-3 bg-a-quaternary btn-outline-light text-a-primary payBtn"
               >
                 {loadingOrder ? (
                   <Spinner animation="border" size="sm" />

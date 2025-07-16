@@ -19,6 +19,19 @@ interface CartContextType {
   clearCart: () => Promise<void>;
 }
 
+interface LocalCartItem {
+  productId: number;
+  title: string;
+  price: number;
+  quantity: number;
+  imageUrl?: string;
+}
+
+interface LocalCart {
+  items: LocalCartItem[];
+  totalPrice: number;
+}
+
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const useCart = (): CartContextType => {

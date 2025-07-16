@@ -15,7 +15,6 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ show, onHide }) => {
   const navigate = useNavigate();
 
   const hasItems = cart?.items?.length > 0;
-  // Calcola il totale sommando prezzo * quantità
   const total =
     cart?.items.reduce((sum, item) => sum + item.price * item.quantity, 0) ?? 0;
 
@@ -51,7 +50,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ show, onHide }) => {
                     item.imageUrl ||
                     "https://i.pinimg.com/736x/5d/9e/c5/5d9ec5890c8e5cf8185e4bc96e9fc015.jpg"
                   }
-                  alt={item.title}
+                  alt={item.productName}
                   style={{
                     width: 60,
                     height: 60,
@@ -62,7 +61,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ show, onHide }) => {
                   onClick={() => navigate(`/product/${item.productId}`)}
                 />
                 <div className="flex-grow-1">
-                  <div className="fw-bold mb-1">{item.title}</div>
+                  <div className="fw-bold mb-1">{item.productName}</div>
                   <div className="d-flex justify-content-between">
                     <span>Prezzo:</span>
                     <span>€{item.price.toFixed(2)}</span>
