@@ -3,6 +3,7 @@ import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import { XLg } from "react-bootstrap-icons";
 import { Image } from "react-bootstrap";
+import "../style/cart.scss";
 
 interface CartDrawerProps {
   show: boolean;
@@ -56,6 +57,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ show, onHide }) => {
                       objectFit: "cover",
                       marginRight: 10,
                     }}
+                    className="pointer"
                   />
                   <div className="flex-grow-1">
                     <div className="fw-semibold">{item.title}</div>
@@ -64,7 +66,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ show, onHide }) => {
                     </div>
                   </div>
                   <XLg
-                    className="text-a-danger"
+                    className="text-a-danger pointer removeBtn"
                     size={20}
                     onClick={() => removeItem(item.productId)}
                   ></XLg>
@@ -78,13 +80,13 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ show, onHide }) => {
             </div>
             <div className="d-flex">
               <Button
-                className="me-2 bg-danger btn-outline-a-tertiary text-a-primary"
+                className="me-2 bg-danger btn-outline-a-tertiary text-a-primary cartBtn"
                 onClick={clearCart}
               >
                 Svuota Carrello
               </Button>
               <Button
-                className="bg-a-quaternary btn-outline-a-tertiary text-a-primary"
+                className="bg-a-quaternary btn-outline-a-tertiary text-a-primary cartBtn"
                 onClick={() => {
                   onHide();
                   navigate("/checkout");
