@@ -18,7 +18,7 @@ import CartDrawer from "./CartDrawer";
 
 const NavbarComponent: React.FC = () => {
   const navigate = useNavigate();
-  const { cart, removeItem, clearCart, viewCart } = useCart();
+  const { cart, viewCart } = useCart();
   const [activeLink, setActiveLink] = useState<string>("");
   const { token, userId, userRole, logout } = useContext(AuthContext);
   const isLoggedIn = !!token;
@@ -91,7 +91,7 @@ const NavbarComponent: React.FC = () => {
                 <Heart
                   className="mx-2 pointer ms-3 wishlist"
                   size={26}
-                  onClick={() => navigate("/users/wishlist")}
+                  onClick={() => navigate(`/users/${userId}/wishlist`)}
                 />
                 <div
                   className="position-relative mx-2 pointer cart"

@@ -26,7 +26,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ show, onHide }) => {
       className="bg-a-tertiary text-a-primary border-2 border-a-quaternary"
     >
       <Offcanvas.Header closeButton closeVariant="white">
-        <Offcanvas.Title>Il tuo carrello</Offcanvas.Title>
+        <Offcanvas.Title> 🛒 Il tuo carrello 🛒</Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
         {loading && (
