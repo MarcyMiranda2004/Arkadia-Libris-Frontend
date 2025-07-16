@@ -23,3 +23,11 @@
 .pointer {
   cursor: pointer;
 }
+
+.pointer-none {
+  pointer-events: none;
+}
+
+.no-select {
+  user-select: none;
+}

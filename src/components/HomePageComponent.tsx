@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Container, Carousel, Row, Col, Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 import { AuthContext } from "../context/AuthContext";
 import type { Product } from "../type/ProductObject";
 import "../style/homePage.scss";
@@ -15,6 +16,8 @@ const HomePageComponent: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const { addToCart } = useCart();
 
   useEffect(() => {
     (async () => {
@@ -58,9 +61,6 @@ const HomePageComponent: React.FC = () => {
     { id: "novita", title: "Novità", items: novita },
     { id: "popolari", title: "Popolari", items: popolari },
     { id: "offerte", title: "Offerte", items: offerte },
-    { id: "libri", title: "Libri", items: libri },
-    { id: "manga", title: "Manga", items: manga },
-    { id: "comix", title: "Comix", items: comix },
   ];
 
   const renderSection = (id: string, title: string, items: Product[]) => (
@@ -94,7 +94,7 @@ const HomePageComponent: React.FC = () => {
                 </Card.Text>
                 <Button
                   className="bg-a-quaternary btn-outline-a-secondary text-a-primary addCartBtn"
-                  onClick={() => {}}
+                  onClick={() => addToCart(p.id, 1)}
                 >
                   Aggiungi al carrello
                 </Button>
