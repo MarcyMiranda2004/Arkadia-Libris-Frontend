@@ -3,13 +3,11 @@ import ReactNode from "react";
 import { AuthContext } from "../context/AuthContext";
 import type { CartDto } from "../type/CartDto";
 
-// DTO per la richiesta di aggiunta al carrello
 interface AddToCartRequestDto {
   productId: number;
   quantity: number;
 }
 
-// Definizione del tipo del context
 interface CartContextType {
   cart: CartDto | null;
   loading: boolean;
@@ -21,10 +19,8 @@ interface CartContextType {
   clearCart: () => Promise<void>;
 }
 
-// Creazione del context
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-// Hook per utilizzare il context
 export const useCart = (): CartContextType => {
   const context = useContext(CartContext);
   if (!context) {
@@ -33,7 +29,6 @@ export const useCart = (): CartContextType => {
   return context;
 };
 
-// Provider del cart
 export const CartProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
@@ -45,7 +40,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
   const API = "http://localhost:8080";
   const headers = { Authorization: `Bearer ${token}` };
 
-  // Carica il carrello
   const viewCart = async () => {
     if (!userId) return;
     setLoading(true);
@@ -61,7 +55,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  // Aggiunge un item al carrello
   const addToCart = async (productId: number, quantity = 1) => {
     if (!userId) return;
     setLoading(true);
@@ -82,7 +75,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  // Aggiorna la quantità di un item
   const updateItemQuantity = async (productId: number, quantity: number) => {
     if (!userId) return;
     setLoading(true);
@@ -101,7 +93,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  // Rimuove un item dal carrello
   const removeItem = async (productId: number) => {
     if (!userId) return;
     setLoading(true);
@@ -120,7 +111,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  // Svuota il carrello
   const clearCart = async () => {
     if (!userId) return;
     setLoading(true);
@@ -138,7 +128,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  // Carica il carrello inizialmente
   useEffect(() => {
     if (token && userId) viewCart();
   }, [token, userId]);

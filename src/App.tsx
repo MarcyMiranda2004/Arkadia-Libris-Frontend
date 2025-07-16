@@ -13,6 +13,7 @@ import LoginPageComponent from "./components/login-registration/LoginPageCompone
 import RegisterPageComponent from "./components/login-registration/RegistrationPageComponent";
 import UserPageComponent from "./components/UserProfilePageComponent";
 import HomePageComponent from "./components/HomePageComponent";
+import CheckoutPageComponent from "./components/CheckoutPageComponent";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
                 element={<UserPageComponent />}
               />
               <Route path="/home" element={<HomePageComponent />} />
+              <Route path="/checkout" element={<CheckoutPageComponent />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </main>
