@@ -70,7 +70,7 @@ const WishlistPageComponent: React.FC = () => {
                     </Card.Text>
                     <div className="d-flex justify-content-between align-items-center">
                       <Button
-                        className="bg-a-quaternary btn-outline-secondary text-a-primary border-0 wishlistBtn"
+                        className="bg-a-quaternary btn-outline-secondary text-a-primary border-0 wishlistBtn border border-1 border-a-primary"
                         onClick={() => addToCart(item.productId)}
                       >
                         Aggiungi al carrello

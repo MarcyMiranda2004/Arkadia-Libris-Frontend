@@ -88,22 +88,22 @@ const FooterComponent = () => {
 
           <Col md={3} className="d-flex flex-column">
             <h5 className="arsenica text-a-primary fs-4">Prodotti</h5>
-            <Link to="/novita" className="arsenica text-a-primary my-1">
+            <Link to="/home/#novita" className="arsenica text-a-primary my-1">
               Novità
             </Link>
-            <Link to="/popolari" className="arsenica text-a-primary my-1">
+            <Link to="/home/#popolari" className="arsenica text-a-primary my-1">
               Popolari
             </Link>
-            <Link to="/offerte" className="arsenica text-a-primary my-1">
+            <Link to="/home/#offerte" className="arsenica text-a-primary my-1">
               Offerte
             </Link>
-            <Link to="/libri" className="arsenica text-a-primary my-1">
+            <Link to="/home/#libri" className="arsenica text-a-primary my-1">
               Libri
             </Link>
-            <Link to="/comix" className="arsenica text-a-primary my-1">
+            <Link to="/home/#comix" className="arsenica text-a-primary my-1">
               Comix
             </Link>
-            <Link to="/manga" className="arsenica text-a-primary my-1">
+            <Link to="/home/#manga" className="arsenica text-a-primary my-1">
               Manga
             </Link>
           </Col>

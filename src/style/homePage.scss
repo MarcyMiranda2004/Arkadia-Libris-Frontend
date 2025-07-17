@@ -13,3 +13,15 @@
         transform: scale(0.95);
     }
 }
+
+.addWishlistBtn {
+    transition: transform 0.12s ease-in-out;
+    
+    &:hover {
+        transform: scale(1.15);
+    }
+    
+    &:active {
+        transform: scale(0.95);
+    }
+}

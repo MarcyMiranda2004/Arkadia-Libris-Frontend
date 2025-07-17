@@ -17,6 +17,10 @@ import HomePageComponent from "./components/HomePageComponent";
 import CheckoutPageComponent from "./components/CheckoutPageComponent";
 import WishlistPageComponent from "./components/WishlistPageComponent";
 import SearchPage from "./components/SearchPage";
+import ForgotPasswordPage from "./components/ForgotPasswordPage";
+import ResetPasswordPage from "./components/ResetPasswordPage";
+import ProductDetailPage from "./components/ProductDetailPage";
+import OrderDetailPage from "./components/OrderDetailPage";
 
 function App() {
   return (
@@ -40,12 +44,26 @@ function App() {
                   element={<UserPageComponent />}
                 />
                 <Route
+                  path="/users/:userId/orders/:orderId"
+                  element={<OrderDetailPage />}
+                />
+
+                <Route
                   path="/users/:userId/wishlist"
                   element={<WishlistPageComponent />}
                 />
                 <Route path="/home" element={<HomePageComponent />} />
+                <Route path="/product/:id" element={<ProductDetailPage />} />
                 <Route path="/checkout" element={<CheckoutPageComponent />} />
                 <Route path="/search" element={<SearchPage />} />
+                <Route
+                  path="/auth/forgot-password"
+                  element={<ForgotPasswordPage />}
+                />
+                <Route
+                  path="/auth/reset-password"
+                  element={<ResetPasswordPage />}
+                />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </main>

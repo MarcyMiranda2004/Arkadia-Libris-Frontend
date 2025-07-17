@@ -169,9 +169,10 @@ const CheckoutForm: React.FC = () => {
               <span>€{total.toFixed(2)}</span>
             </div>
             <Form>
-              <Form.Group className="mb-3">
+              <Form.Group className="mb-3 pointer">
                 <Form.Label>Indirizzo di spedizione</Form.Label>
                 <Form.Select
+                  className="pointer"
                   value={shippingAddressId ?? ""}
                   onChange={(e) =>
                     setShippingAddressId(Number(e.currentTarget.value))
@@ -184,9 +185,10 @@ const CheckoutForm: React.FC = () => {
                   ))}
                 </Form.Select>
               </Form.Group>
-              <Form.Group className="mb-3">
+              <Form.Group className="mb-3 pointer">
                 <Form.Label>Indirizzo di fatturazione</Form.Label>
                 <Form.Select
+                  className="pointer"
                   value={billingAddressId ?? ""}
                   onChange={(e) =>
                     setBillingAddressId(Number(e.currentTarget.value))

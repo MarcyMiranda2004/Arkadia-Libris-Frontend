@@ -37,7 +37,6 @@ const LoginPageComponent: React.FC = () => {
     const payload = Object.fromEntries(formData.entries());
 
     try {
-      // 1) autenticazione
       const res = await fetch(`${API}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -52,16 +51,13 @@ const LoginPageComponent: React.FC = () => {
 
       const { token, userId } = (await res.json()) as LoginResponse;
 
-      // 2) recupero ruolo
       const profileRes = await fetch(`${API}/users/dto/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const profile = (await profileRes.json()) as { role: string };
 
-      // 3) aggiorno context
       contextLogin(token, userId, profile.role);
 
-      // 4) redirect
       navigate(`/user-profile/${userId}`);
     } catch {
       setError("Errore di rete durante il login");

@@ -87,7 +87,7 @@ const NavbarComponent: React.FC = () => {
                 <Form.Control
                   type="search"
                   placeholder="Cerca..."
-                  className="rounded-pill rounded-end"
+                  className="rounded-pill rounded-end formLabel"
                   aria-label="Search"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.currentTarget.value)}
@@ -97,7 +97,7 @@ const NavbarComponent: React.FC = () => {
                   variant="outline-success"
                   className="d-flex align-items-center justify-content-center bg-a-primary border-0 text-black rounded-pill rounded-start"
                 >
-                  <Search size={20} />
+                  <Search size={20} className="search" />
                 </Button>
               </Form>
 

@@ -56,16 +56,18 @@ const UserPageComponent: React.FC = () => {
 
   const authHeader = { Authorization: `Bearer ${token}` };
 
+  const [orderPage, setOrderPage] = useState(0);
+  const [totalOrderPages, setTotalOrderPages] = useState(1);
+
+  /* Effect profilo */
   useEffect(() => {
     if (!uid) {
       setError("User ID non disponibile");
       setLoading(false);
       return;
     }
-
     (async () => {
       try {
-        // 1) profilo + indirizzi
         const [uRes, aRes] = await Promise.all([
           fetch(`${API}/users/dto/${uid}`, { headers: authHeader }),
           fetch(`${API}/users/${uid}/addresses`, { headers: authHeader }),
@@ -74,14 +76,6 @@ const UserPageComponent: React.FC = () => {
         if (!aRes.ok) throw new Error(`Errore indirizzi: ${aRes.status}`);
         setUser(await uRes.json());
         setAddresses(await aRes.json());
-
-        // 2) ordini (pagina 0, size 10)
-        const oRes = await fetch(`${API}/users/${uid}/orders?page=0&size=10`, {
-          headers: authHeader,
-        });
-        if (!oRes.ok) throw new Error(`Errore ordini: ${oRes.status}`);
-        const page = await oRes.json();
-        setOrders(page.content as OrderDto[]);
       } catch (e: any) {
         setError(e.message);
       } finally {
@@ -89,6 +83,25 @@ const UserPageComponent: React.FC = () => {
       }
     })();
   }, [uid]);
+
+  /* Effect ordini */
+  useEffect(() => {
+    if (!uid) return;
+    setLoading(true);
+    fetch(`${API}/users/${uid}/orders?page=${orderPage}&size=10`, {
+      headers: authHeader,
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error(`Errore ordini: ${res.status}`);
+        return res.json();
+      })
+      .then((page) => {
+        setOrders(page.content as OrderDto[]);
+        setTotalOrderPages(page.totalPages ?? 1);
+      })
+      .catch((e) => setError(e.message))
+      .finally(() => setLoading(false));
+  }, [uid, orderPage]);
 
   const handleEditSubmit = async () => {
     try {
@@ -370,7 +383,7 @@ const UserPageComponent: React.FC = () => {
             <h3 className="arsenica-bold p-3 border-bottom border-2 border-a-tertiary m-0 ">
               Indirizzi
               <Button
-                className="float-end p-0 bg-a-quaternary customBtn border-0"
+                className="float-end p-0 bg-a-quaternary customBtn border border-1 border-a-primary"
                 onClick={() => {
                   setAddrForm({});
                   setEditingAddr(null);
@@ -419,42 +432,70 @@ const UserPageComponent: React.FC = () => {
             <h3 className="arsenica-bold p-3 border-bottom border-2 border-a-tertiary m-0">
               Ordini
             </h3>
+
             {orders.length === 0 ? (
               <p className="arsenica">Nessun ordine effettuato</p>
             ) : (
-              <ListGroup variant="flush">
-                {orders.map((o) => (
-                  <ListGroup.Item key={o.orderId} className="py-2">
-                    <div className="d-flex justify-content-between align-items-center">
-                      <div>
-                        <strong>Ordine #{o.orderId}</strong>
-                        <br />
-                        {isValid(parseISO(o.orderDate))
-                          ? format(parseISO(o.orderDate), "dd/MM/yyyy")
-                          : o.orderDate}{" "}
-                        – {o.orderStatus}
-                        <br />
-                        Totale: €{o.totalAmmount.toFixed(2)}
-                        <br />
-                        Articoli: {o.items.length}
-                        <br />
-                        <Link
-                          to={`/users/${uid}/order-details`}
-                          className="me-2 text-a-quaternary"
-                        >
-                          Dettagli
-                        </Link>
-                        <Link
-                          to={`/users/${uid}/cart`}
-                          className="ms-2 text-a-quaternary"
-                        >
-                          Riordina
-                        </Link>
+              <>
+                <ListGroup variant="flush">
+                  {orders.map((o) => (
+                    <ListGroup.Item key={o.orderId} className="py-2">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div>
+                          <strong>Ordine #{o.orderId}</strong>
+                          <br />
+                          {isValid(parseISO(o.orderDate))
+                            ? format(parseISO(o.orderDate), "dd/MM/yyyy")
+                            : o.orderDate}{" "}
+                          – {o.orderStatus}
+                          <br />
+                          Totale: €{o.totalAmmount.toFixed(2)}
+                          <br />
+                          Articoli: {o.items.length}
+                          <br />
+                          <Link
+                            to={`/users/${uid}/orders/${o.orderId}`}
+                            className="me-2 text-a-quaternary"
+                          >
+                            Dettagli
+                          </Link>
+                          <Link
+                            to={`/users/${uid}/cart`}
+                            className="ms-2 text-a-quaternary"
+                          >
+                            Riordina
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+
+                {/* Paginazione Ordini*/}
+                <div className="d-flex justify-content-between align-items-center my-2 p-3">
+                  <Button
+                    size="sm"
+                    onClick={() => setOrderPage((p) => Math.max(0, p - 1))}
+                    disabled={orderPage === 0}
+                    className="bg-a-quaternary btn-outline-a-quaternary text-a-primary border border-1 border-a-primary customBtn"
+                  >
+                    ← Precedente
+                  </Button>
+                  <span>
+                    Pagina {orderPage + 1} di {totalOrderPages}
+                  </span>
+                  <Button
+                    size="sm"
+                    onClick={() =>
+                      setOrderPage((p) => Math.min(totalOrderPages - 1, p + 1))
+                    }
+                    disabled={orderPage >= totalOrderPages - 1}
+                    className="bg-a-quaternary btn-outline-a-quaternary text-a-primary border border-1 border-a-primary customBtn"
+                  >
+                    Successivo →
+                  </Button>
+                </div>
+              </>
             )}
           </div>
         </Container>

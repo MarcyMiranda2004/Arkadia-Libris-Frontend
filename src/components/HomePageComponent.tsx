@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+  useMemo,
+} from "react";
 import { Container, Carousel, Row, Col, Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
@@ -61,9 +67,9 @@ const HomePageComponent: React.FC = () => {
 
   const shuffle = (arr: Product[]) => [...arr].sort(() => Math.random() - 0.5);
 
-  const novita = shuffle(products).slice(0, 8);
-  const popolari = shuffle(products).slice(0, 8);
-  const offerte = shuffle(products).slice(0, 8);
+  const novita = useMemo(() => shuffle(products).slice(0, 8), [products]);
+  const popolari = useMemo(() => shuffle(products).slice(0, 8), [products]);
+  const offerte = useMemo(() => shuffle(products).slice(0, 8), [products]);
 
   const banners = [
     "https://i.pinimg.com/736x/59/a0/f6/59a0f69a9e03f8e391e74729c97dfc3e.jpg",
@@ -108,7 +114,7 @@ const HomePageComponent: React.FC = () => {
                 <Card.Body className="d-flex flex-column bg-a-secondary">
                   <div className="d-flex justify-content-between align-items-center mb-2">
                     <div>
-                      <Card.Title className="fs-6 text-truncate text-a-primary">
+                      <Card.Title className="fs-6 text-truncate text-a-primary text-wrap">
                         {p.title}
                       </Card.Title>
                       <Card.Text className="fw-bold mt-auto text-a-primary">
@@ -120,14 +126,20 @@ const HomePageComponent: React.FC = () => {
                       onClick={() => toggleWishlist(p.id)}
                     >
                       {favorite ? (
-                        <HeartFill size={24} className="text-danger" />
+                        <HeartFill
+                          size={24}
+                          className="text-danger addWishlistBtn"
+                        />
                       ) : (
-                        <Heart size={24} className="text-a-primary" />
+                        <Heart
+                          size={24}
+                          className="text-a-primary addWishlistBtn"
+                        />
                       )}
                     </div>
                   </div>
                   <Button
-                    className="bg-a-quaternary btn-outline-a-secondary text-a-primary addCartBtn"
+                    className="bg-a-quaternary btn-outline-a-secondary text-a-primary addCartBtn border border-1 border-a-primary"
                     onClick={() => addToCart(p.id, 1)}
                   >
                     Aggiungi al carrello

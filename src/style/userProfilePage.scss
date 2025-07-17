@@ -35,7 +35,7 @@ transition: transform 0.12s ease-in-out;
         box-shadow 0.2s ease-in-out;
 
     &:hover {
-        transform: scale(1.05);
+        transform: scale(1.10);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
     }
 
@@ -54,4 +54,6 @@ transition: transform 0.12s ease-in-out;
         border: 2px solid map-get($theme-colors, "a-quaternary") !important;
     }
 }
+
+
 

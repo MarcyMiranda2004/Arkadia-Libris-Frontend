@@ -35,7 +35,6 @@ const SearchPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Carica wishlist per sapere quali sono già segnati
   useEffect(() => {
     if (userId) viewWishlist();
   }, [userId, viewWishlist]);
@@ -55,7 +54,6 @@ const SearchPage: React.FC = () => {
     }
   };
 
-  // Fetch dei prodotti
   useEffect(() => {
     if (!title) return;
     setLoading(true);
@@ -72,9 +70,7 @@ const SearchPage: React.FC = () => {
       .then((page) => {
         const q = title.toLowerCase().trim();
         const filtered = (page.content as Product[])
-          // 1) mantengo solo i titoli che contengono la query
           .filter((p) => p.title.toLowerCase().includes(q))
-          // 2) li ordino alfabetico/numericamente (Comix 1, Comix 2, Comix 10, ecc)
           .sort((a, b) =>
             a.title.localeCompare(b.title, undefined, {
               numeric: true,
