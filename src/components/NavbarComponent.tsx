@@ -32,6 +32,17 @@ const NavbarComponent: React.FC = () => {
   };
 
   const handleClose = () => setShowCart(false);
+  const handleReload = () => {
+    window.location.reload();
+  };
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const handleSubmitSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      navigate(`/search?title=${encodeURIComponent(searchTerm.trim())}`);
+    }
+  };
 
   return (
     <>
@@ -72,14 +83,17 @@ const NavbarComponent: React.FC = () => {
               )}
 
               {/* Search Tab */}
-              <Form className="d-flex mx-5">
+              <Form className="d-flex mx-5" onSubmit={handleSubmitSearch}>
                 <Form.Control
                   type="search"
                   placeholder="Cerca..."
                   className="rounded-pill rounded-end"
                   aria-label="Search"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.currentTarget.value)}
                 />
                 <Button
+                  type="submit"
                   variant="outline-success"
                   className="d-flex align-items-center justify-content-center bg-a-primary border-0 text-black rounded-pill rounded-start"
                 >
@@ -143,6 +157,7 @@ const NavbarComponent: React.FC = () => {
                         onClick={() => {
                           logout();
                           navigate("/auth/login");
+                          handleReload();
                         }}
                       >
                         Logout

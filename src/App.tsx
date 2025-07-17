@@ -16,6 +16,7 @@ import UserPageComponent from "./components/UserProfilePageComponent";
 import HomePageComponent from "./components/HomePageComponent";
 import CheckoutPageComponent from "./components/CheckoutPageComponent";
 import WishlistPageComponent from "./components/WishlistPageComponent";
+import SearchPage from "./components/SearchPage";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
                 />
                 <Route path="/home" element={<HomePageComponent />} />
                 <Route path="/checkout" element={<CheckoutPageComponent />} />
+                <Route path="/search" element={<SearchPage />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </main>
