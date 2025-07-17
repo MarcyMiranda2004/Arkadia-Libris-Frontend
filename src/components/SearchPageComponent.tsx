@@ -135,7 +135,7 @@ const SearchPage: React.FC = () => {
                 <Card.Body className="d-flex flex-column bg-a-secondary text-a-primary">
                   <div className="d-flex justify-content-between align-items-center mb-2">
                     <div>
-                      <Card.Title className="fs-6 text-truncate">
+                      <Card.Title className="fs-6 text-truncate text-wrap">
                         {p.title}
                       </Card.Title>
                       <Card.Text className="fw-bold mt-auto">

@@ -16,11 +16,13 @@ import UserPageComponent from "./components/UserProfilePageComponent";
 import HomePageComponent from "./components/HomePageComponent";
 import CheckoutPageComponent from "./components/CheckoutPageComponent";
 import WishlistPageComponent from "./components/WishlistPageComponent";
-import SearchPage from "./components/SearchPage";
-import ForgotPasswordPage from "./components/ForgotPasswordPage";
-import ResetPasswordPage from "./components/ResetPasswordPage";
-import ProductDetailPage from "./components/ProductDetailPage";
-import OrderDetailPage from "./components/OrderDetailPage";
+import SearchPage from "./components/SearchPageComponent";
+import ForgotPasswordPage from "./components/ForgotPasswordPageComponent";
+import ResetPasswordPage from "./components/ResetPasswordPageComponent";
+import ProductDetailPage from "./components/ProductDetailPageComponent";
+import OrderDetailPage from "./components/OrderDetailPageComponent";
+import BackofficeHome from "./components/backoffice/BackofficeHomeComponent";
+import BackofficeProductsPage from "./components/backoffice/BackofficeProductsPage";
 
 function App() {
   return (
@@ -65,6 +67,15 @@ function App() {
                   element={<ResetPasswordPage />}
                 />
                 <Route path="*" element={<NotFoundPage />} />
+
+                {/* Rotte BO */}
+                <Route path="/backoffice" element={<BackofficeHome />} />
+                <Route
+                  path="/backoffice/products"
+                  element={<BackofficeProductsPage />}
+                />
+                {/* <Route path="/backoffice/users" element={<UsersPage />} /> */}
+                {/* <Route path="/backoffice/stock" element={<StockPage />} /> */}
               </Routes>
             </main>
 

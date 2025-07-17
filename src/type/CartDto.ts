@@ -3,7 +3,7 @@ export interface CartItemDto {
   productName: string;
   price: number;
   quantity: number;
-  imageUrl?: string;
+  imageUrls?: string;
 }
 
 export interface CartDto {

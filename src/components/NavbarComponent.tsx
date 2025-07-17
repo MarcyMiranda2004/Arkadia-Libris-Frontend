@@ -14,7 +14,7 @@ import {
 import { Search, Heart, Cart, PersonCircle } from "react-bootstrap-icons";
 import logo from "../assets/png/logos/logo-no-write-no-bg.svg";
 import "../style/navbar.scss";
-import CartDrawer from "./CartDrawer";
+import CartDrawer from "./CartDrawerComponent";
 
 const NavbarComponent: React.FC = () => {
   const navigate = useNavigate();
@@ -67,20 +67,18 @@ const NavbarComponent: React.FC = () => {
           />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto mx-3">
-              {["novita", "popolari", "offerta", "libri", "comix", "manga"].map(
-                (section) => (
-                  <Nav.Link
-                    key={section}
-                    href={`/home/#${section}`}
-                    onClick={() => setActiveLink(section)}
-                    className={`text-a-primary h2 mx-2 fw-semibold pointer navLink ${
-                      activeLink === section ? "active-link" : ""
-                    }`}
-                  >
-                    {section.charAt(0).toUpperCase() + section.slice(1)}
-                  </Nav.Link>
-                )
-              )}
+              {["home", "novita", "popolari", "offerta"].map((section) => (
+                <Nav.Link
+                  key={section}
+                  href={`/home/#${section}`}
+                  onClick={() => setActiveLink(section)}
+                  className={`text-a-primary h2 mx-2 fw-semibold pointer navLink ${
+                    activeLink === section ? "active-link" : ""
+                  }`}
+                >
+                  {section.charAt(0).toUpperCase() + section.slice(1)}
+                </Nav.Link>
+              ))}
 
               {/* Search Tab */}
               <Form className="d-flex mx-5" onSubmit={handleSubmitSearch}>

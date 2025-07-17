@@ -47,7 +47,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ show, onHide }) => {
               >
                 <Image
                   src={
-                    item.imageUrl ||
+                    item.imageUrls ||
                     "https://i.pinimg.com/736x/5d/9e/c5/5d9ec5890c8e5cf8185e4bc96e9fc015.jpg"
                   }
                   alt={item.productName}

@@ -100,7 +100,7 @@ const ProductDetailPage: React.FC = () => {
   return (
     <Container className="mt-5">
       <Button
-        onClick={() => navigate(`/home`)}
+        onClick={() => navigate(-1)}
         className="addCartBtn bg-a-quaternary btn-outline-a-quaternary text-a-primary border border-1 border-a-secondary"
       >
         ← Torna indietro

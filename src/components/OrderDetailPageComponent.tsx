@@ -129,7 +129,7 @@ const OrderDetailPage: React.FC = () => {
           <tbody>
             {order.items.map((it) => {
               const quantity = it.quantity;
-              const price = it.price ?? "---";
+              const price = it.price ?? 0;
               return (
                 <tr key={it.productId}>
                   <td>{it.productName || "—"}</td>
