@@ -43,7 +43,7 @@ const ProductDetailPage: React.FC = () => {
 
   useEffect(() => {
     if (userId) viewWishlist();
-  }, [userId, viewWishlist]);
+  }, [userId]);
 
   const isFavorite = useCallback(
     () => !!wishlist?.items.find((i) => i.productId === prodId),
@@ -98,7 +98,7 @@ const ProductDetailPage: React.FC = () => {
     );
 
   return (
-    <Container className="mt-5">
+    <Container className="my-5">
       <Button
         onClick={() => navigate(-1)}
         className="addCartBtn bg-a-quaternary btn-outline-a-quaternary text-a-primary border border-1 border-a-secondary"

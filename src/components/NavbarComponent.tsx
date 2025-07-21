@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
@@ -10,6 +10,7 @@ import {
   Form,
   Button,
   Image,
+  Offcanvas,
 } from "react-bootstrap";
 import { Search, Heart, Cart, PersonCircle } from "react-bootstrap-icons";
 import logo from "../assets/png/logos/logo-no-write-no-bg.svg";
@@ -44,9 +45,24 @@ const NavbarComponent: React.FC = () => {
     }
   };
 
+  const [showOffcanvas, setShowOffcanvas] = useState(false);
+  const handleOffcanvasToggle = () => setShowOffcanvas((prev) => !prev);
+  const [isShrunk, setIsShrunk] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setIsShrunk(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <>
-      <Navbar expand="lg" className="bg-a-secondary">
+    <div className="bg-a-secondary">
+      <Navbar
+        expand="lg"
+        className={`navbar-sticky ${isShrunk ? "shrink" : ""}`}
+      >
         <Container className="p-0">
           <Navbar.Brand
             onClick={() => navigate("/home")}
@@ -62,12 +78,30 @@ const NavbarComponent: React.FC = () => {
           </Navbar.Brand>
 
           <Navbar.Toggle
-            aria-controls="basic-navbar-nav"
+            aria-controls="offcanvasNavbar"
+            onClick={handleOffcanvasToggle}
             className="bg-a-primary me-5"
           />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto mx-3">
-              {["home", "novita", "popolari", "offerta"].map((section) => (
+          <Navbar.Offcanvas
+            id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel"
+            placement="start"
+            show={showOffcanvas}
+            onHide={() => setShowOffcanvas(false)}
+            className="bg-a-secondary border-end border-2 border-a-quaternary"
+          >
+            <Nav className="me-auto mx-3 ">
+              <div className="d-md-none text-a-primary my-4 d-flex align-items-center">
+                <Image
+                  src={logo}
+                  alt="arkadia_libris_logo"
+                  style={{ width: "75px" }}
+                  className="rounded-circle logo"
+                />
+                <h3 className="arsenica fs-1">Arkadia Libris</h3>
+              </div>
+
+              {["home", "novita", "popolari", "offerte"].map((section) => (
                 <Nav.Link
                   key={section}
                   href={`/home/#${section}`}
@@ -81,7 +115,10 @@ const NavbarComponent: React.FC = () => {
               ))}
 
               {/* Search Tab */}
-              <Form className="d-flex mx-5" onSubmit={handleSubmitSearch}>
+              <Form
+                className="d-flex mx-5 my-4 my-md-0"
+                onSubmit={handleSubmitSearch}
+              >
                 <Form.Control
                   type="search"
                   placeholder="Cerca..."
@@ -99,7 +136,8 @@ const NavbarComponent: React.FC = () => {
                 </Button>
               </Form>
 
-              <div className="bg-a-primary rounded-pill d-flex align-items-center fw-semibold">
+              {/* User Tabs */}
+              <div className="bg-a-primary rounded-pill d-flex align-items-center justify-content-center fw-semibold mx-auto px-5 px-md-0 pe-md-0">
                 <Heart
                   className="mx-2 pointer ms-3 wishlist"
                   size={26}
@@ -123,10 +161,15 @@ const NavbarComponent: React.FC = () => {
                 <CartDrawer show={showCart} onHide={() => setShowCart(false)} />
 
                 <NavDropdown
-                  title={<PersonCircle size={25} className="pointer user" />}
+                  title={
+                    <PersonCircle
+                      size={25}
+                      className="pointer user ms-2 ms-md-0"
+                    />
+                  }
                   id="person-dropdown"
-                  align="end"
                   className="person-dropdown"
+                  align="end"
                 >
                   {isLoggedIn ? (
                     <>
@@ -180,10 +223,10 @@ const NavbarComponent: React.FC = () => {
                 </NavDropdown>
               </div>
             </Nav>
-          </Navbar.Collapse>
+          </Navbar.Offcanvas>
         </Container>
       </Navbar>
-    </>
+    </div>
   );
 };
 

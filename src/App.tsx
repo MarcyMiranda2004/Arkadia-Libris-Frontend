@@ -1,6 +1,7 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style/bootstrap.scss";
+import "./style/navbar.scss";
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
@@ -23,6 +24,9 @@ import ProductDetailPage from "./components/ProductDetailPageComponent";
 import OrderDetailPage from "./components/OrderDetailPageComponent";
 import BackofficeHome from "./components/backoffice/BackofficeHomeComponent";
 import BackofficeProductsPage from "./components/backoffice/BackofficeProductsPage";
+import BackOfficeUsersPage from "./components/backoffice/BackofficeUserComponent";
+import BackOfficeStockPage from "./components/backoffice/BackOfficeStockPage";
+import BackOfficeCategoriesPage from "./components/backoffice/BackOfficeCategoriesPage";
 
 function App() {
   return (
@@ -74,8 +78,18 @@ function App() {
                   path="/backoffice/products"
                   element={<BackofficeProductsPage />}
                 />
-                {/* <Route path="/backoffice/users" element={<UsersPage />} /> */}
-                {/* <Route path="/backoffice/stock" element={<StockPage />} /> */}
+                <Route
+                  path="/backoffice/users"
+                  element={<BackOfficeUsersPage />}
+                />
+                <Route
+                  path="/backoffice/stock"
+                  element={<BackOfficeStockPage />}
+                />
+                <Route
+                  path="/backoffice/categories"
+                  element={<BackOfficeCategoriesPage />}
+                />
               </Routes>
             </main>
 

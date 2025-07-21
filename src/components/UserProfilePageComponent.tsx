@@ -23,11 +23,12 @@ import {
   Trash3Fill,
   Plus,
 } from "react-bootstrap-icons";
+import { useNavigate } from "react-router-dom";
 
 const API = "http://localhost:8080";
 
 const UserPageComponent: React.FC = () => {
-  const { token, userId: ctxId } = useContext(AuthContext);
+  const { token, userId: ctxId, logout } = useContext(AuthContext);
   const { userId: paramId } = useParams<{ userId: string }>();
   const uid = paramId ?? ctxId?.toString();
 
@@ -58,6 +59,11 @@ const UserPageComponent: React.FC = () => {
 
   const [orderPage, setOrderPage] = useState(0);
   const [totalOrderPages, setTotalOrderPages] = useState(1);
+
+  const navigate = useNavigate();
+
+  const [showDelete, setShowDelete] = useState(false);
+  const [deletePassword, setDeletePassword] = useState("");
 
   /* Effect profilo */
   useEffect(() => {
@@ -301,6 +307,28 @@ const UserPageComponent: React.FC = () => {
     }
   };
 
+  const handleAccountDelete = async (e: FormEvent) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(`${API}/users/${uid}`, {
+        method: "DELETE",
+        headers: {
+          ...authHeader,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password: deletePassword }),
+      });
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg || `Errore ${res.status}`);
+      }
+      logout();
+      navigate("/home");
+    } catch (err: any) {
+      alert(`Impossibile eliminare l'account: ${err.message}`);
+    }
+  };
+
   if (loading) return <Container>Caricamento in corso…</Container>;
   if (error) return <Container className="text-danger">{error}</Container>;
   if (!user) return null;
@@ -499,6 +527,18 @@ const UserPageComponent: React.FC = () => {
             )}
           </div>
         </Container>
+      </Row>
+
+      <Row className="mt-4 bg-a-secondary p-3 rounded-3 border border-1 border-a-quaternary userInfoTab mb-5">
+        <Col className="text-center">
+          <Button
+            variant="danger"
+            onClick={() => setShowDelete(true)}
+            className="customBtn "
+          >
+            ⚠ Elimina Account ⚠
+          </Button>
+        </Col>
       </Row>
 
       {/* ——— MODALI ——— */}
@@ -787,6 +827,46 @@ const UserPageComponent: React.FC = () => {
             </Button>
           </Form>
         </Modal.Body>
+      </Modal>
+
+      {/* Modale Elimina Account */}
+      <Modal show={showDelete} onHide={() => setShowDelete(false)}>
+        <Form
+          onSubmit={handleAccountDelete}
+          className="bg-a-secondary text-a-primary"
+        >
+          <Modal.Header closeButton closeVariant="white">
+            <Modal.Title>Elimina Account</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>
+              Sei sicuro di voler eliminare definitivamente il tuo account?
+              Inserisci la tua password per confermare.
+            </p>
+            <Form.Group className="mb-2">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                required
+                value={deletePassword}
+                onChange={(e) => setDeletePassword(e.currentTarget.value)}
+                className="bg-a-primary"
+              />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="secondary"
+              onClick={() => setShowDelete(false)}
+              className="customBtn"
+            >
+              Annulla
+            </Button>
+            <Button type="submit" variant="danger" className="customBtn">
+              Elimina
+            </Button>
+          </Modal.Footer>
+        </Form>
       </Modal>
     </Container>
   );

@@ -91,3 +91,25 @@
     }
   }
 }
+
+.navbar-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  transition: padding 0.3s ease, box-shadow 0.3s ease;
+
+  &.shrink {
+    padding: 0 !important; 
+    box-shadow: none !important; 
+
+    .navbar {
+      padding: 0.4rem 0 !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+    }
+  }
+
+  .navbar {
+    padding: 1rem 0 !important;
+    box-shadow: none !important;
+  }
+}

@@ -37,7 +37,7 @@ const SearchPage: React.FC = () => {
 
   useEffect(() => {
     if (userId) viewWishlist();
-  }, [userId, viewWishlist]);
+  }, [userId]);
 
   const isInWishlist = useCallback(
     (productId: number) =>

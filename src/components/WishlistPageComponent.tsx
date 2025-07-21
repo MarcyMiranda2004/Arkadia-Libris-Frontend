@@ -42,7 +42,7 @@ const WishlistPageComponent: React.FC = () => {
         <>
           <Row className="mt-4">
             {wishlist.items.map((item) => (
-              <Col xs={6} md={4} lg={3} key={item.productId} className="mb-4">
+              <Col xs={12} md={4} lg={3} key={item.productId} className="mb-4">
                 <Card className="h-100">
                   <div style={{ height: 400, overflow: "hidden" }}>
                     <Card.Img

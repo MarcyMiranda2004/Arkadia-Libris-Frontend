@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import "../../style/backoffice/backOfficeDashboard.scss";
@@ -25,6 +25,21 @@ const BackofficeHome: React.FC = () => {
         <Col>
           <Card
             className="h-100 text-center tab pointer"
+            onClick={() => navigate("/backoffice/categories")}
+          >
+            <Card.Body>
+              <Card.Title>"Vedi e gestisci Categorie"</Card.Title>
+              <Card.Text>
+                Clicca qui per Vedere, Aggiungere, Modificare o Eliminare delle
+                Categorie
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col>
+          <Card
+            className="h-100 text-center tab pointer"
             onClick={() => navigate("/backoffice/products")}
           >
             <Card.Body>
@@ -40,13 +55,13 @@ const BackofficeHome: React.FC = () => {
         <Col>
           <Card
             className="h-100 text-center tab pointer"
-            onClick={() => navigate("/backoffice/users")}
+            onClick={() => navigate("/backoffice/stock")}
           >
             <Card.Body>
-              <Card.Title>"Vedi e gestisci Utenti"</Card.Title>
+              <Card.Title>"Vedi e gestisci Stock"</Card.Title>
               <Card.Text>
-                Clicca qui per visualizzare tutti gli utenti, assegna ruoli e
-                gestisci account.
+                Clicca qui per controllare le quantità disponibili e aggiorna le
+                scorte del magazzino.
               </Card.Text>
             </Card.Body>
           </Card>
@@ -55,13 +70,13 @@ const BackofficeHome: React.FC = () => {
         <Col>
           <Card
             className="h-100 text-center tab pointer"
-            onClick={() => navigate("/backoffice/stock")}
+            onClick={() => navigate("/backoffice/users")}
           >
             <Card.Body>
-              <Card.Title>"Vedi e gestisci Stock"</Card.Title>
+              <Card.Title>"Vedi e gestisci Utenti"</Card.Title>
               <Card.Text>
-                Clicca qui per controllare le quantità disponibili e aggiorna le
-                scorte del magazzino.
+                Clicca qui per visualizzare tutti gli utenti, assegna ruoli e
+                gestisci account.
               </Card.Text>
             </Card.Body>
           </Card>

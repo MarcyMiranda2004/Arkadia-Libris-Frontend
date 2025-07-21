@@ -21,12 +21,14 @@ import type {
 import { AuthContext } from "../../context/AuthContext";
 import "../../style/backoffice/backOfficeDashboard.scss";
 import { PencilSquare, TrashFill } from "react-bootstrap-icons";
+import { useNavigate } from "react-router-dom";
 
 const API_BASE = "http://localhost:8080";
 const PAGE_SIZE = 20;
 
 const BackOfficeProductsPage: React.FC = () => {
   const { token } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [key, setKey] = useState<"view" | "functions">("view");
   const [products, setProducts] = useState<ProductDto[]>([]);
   const [loading, setLoading] = useState(false);
@@ -145,7 +147,7 @@ const BackOfficeProductsPage: React.FC = () => {
       fetchProducts(page);
     } catch (err) {
       console.error(err);
-      setError("Errore durante l'eliminazione");
+      setError("Spiacenti, non è possibile eliminare questo prodotto");
     }
   };
 
@@ -229,6 +231,9 @@ const BackOfficeProductsPage: React.FC = () => {
 
   return (
     <Container className="mt-4">
+      <h2 className="text-center mb-5 mt-5 fs-1 arsenica bg-a-secondary text-a-primary rounded-pill border border-2 border-a-quaternary p-2">
+        Gestione Prodotti
+      </h2>
       {error && <Alert variant="danger">{error}</Alert>}
       <Tabs
         activeKey={key}
@@ -239,10 +244,16 @@ const BackOfficeProductsPage: React.FC = () => {
           <Row className="mb-3">
             <Col xs="auto">
               <Button
-                className="customBtn bg-a-quaternary btn-outline-a-primary text-a-primary border border-2 border-a-secondary"
+                className="customBtn bg-a-quaternary btn-outline-a-primary text-a-primary border border-2 border-a-secondary me-1"
                 onClick={openCreate}
               >
                 Aggiungi Prodotto
+              </Button>
+              <Button
+                className="customBtn bg-a-quaternary btn-outline-a-primary text-a-primary border border-2 border-a-secondary ms-1"
+                onClick={() => navigate("/backoffice/stock")}
+              >
+                Controlla Stock
               </Button>
             </Col>
             <Col>
@@ -262,7 +273,6 @@ const BackOfficeProductsPage: React.FC = () => {
                 />
                 <Button
                   type="submit"
-                  variant="primary"
                   className="ms-2 customBtn bg-a-quaternary btn-outline-a-primary text-a-primary border border-2 border-a-secondary"
                 >
                   Cerca
@@ -322,7 +332,7 @@ const BackOfficeProductsPage: React.FC = () => {
 
       <Modal show={showForm} onHide={() => setShowForm(false)}>
         <Form onSubmit={handleSubmit} className="bg-a-secondary text-a-primary">
-          <Modal.Header closeButton>
+          <Modal.Header closeButton closeVariant="white">
             <Modal.Title>
               {formMode === "create" ? "Nuovo Prodotto" : "Modifica Prodotto"}
             </Modal.Title>
@@ -383,16 +393,22 @@ const BackOfficeProductsPage: React.FC = () => {
                 className="bg-a-primary"
               />
             </Form.Group>
+
             {formMode === "create" && (
               <>
                 <Form.Group className="mb-2">
                   <Form.Label>Tipo Prodotto</Form.Label>
-                  <Form.Control
+                  <Form.Select
                     required
                     value={productType}
                     onChange={(e) => setProductType(e.target.value)}
                     className="bg-a-primary"
-                  />
+                  >
+                    <option value="">Seleziona un tipo...</option>
+                    <option value="BOOK">BOOK</option>
+                    <option value="MANGA">MANGA</option>
+                    <option value="COMIX">COMIX</option>
+                  </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-2">
                   <Form.Label>Quantità Iniziale</Form.Label>
@@ -408,8 +424,9 @@ const BackOfficeProductsPage: React.FC = () => {
                 </Form.Group>
               </>
             )}
+
             <Form.Group className="mb-2">
-              <Form.Label>Categorie (comma-separated)</Form.Label>
+              <Form.Label>Categorie (usa la virgola per separare)</Form.Label>
               <Form.Control
                 required
                 value={categoriesInput}
@@ -418,7 +435,9 @@ const BackOfficeProductsPage: React.FC = () => {
               />
             </Form.Group>
             <Form.Group className="mb-2">
-              <Form.Label>Immagini URL (comma-separated)</Form.Label>
+              <Form.Label>
+                Immagini URL (usa la virgola per separare)
+              </Form.Label>
               <Form.Control
                 value={imagesInput}
                 onChange={(e) => setImagesInput(e.target.value)}

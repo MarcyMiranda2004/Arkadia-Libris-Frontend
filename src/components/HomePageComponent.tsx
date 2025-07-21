@@ -92,7 +92,7 @@ const HomePageComponent: React.FC = () => {
         {items.map((p) => {
           const favorite = isInWishlist(p.id);
           return (
-            <Col key={p.id} xs={6} md={3} className="mb-4">
+            <Col key={p.id} xs={12} md={3} className="mb-4">
               <Card className="h-100">
                 <div style={{ height: 400, overflow: "hidden" }}>
                   <Card.Img
