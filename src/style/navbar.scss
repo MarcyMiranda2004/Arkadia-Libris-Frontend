@@ -1,0 +1,115 @@
+@import "../style/_variables.scss";
+
+
+.navLink:hover {
+  transition: transform 0.12s ease-in-out;
+  
+    &:hover {
+      transform: scale(1.15);
+    }
+}
+
+.active-link {
+  border-bottom: 3px solid map-get($theme-colors, "a-primary");
+}
+
+.searchBtn:active {
+  transition: transform 0.12s ease-in-out;
+  
+    &:hover {
+      transform: scale(0.8);
+    }
+}
+
+ .cart {
+  transition: transform 0.12s ease-in-out;
+  &:hover {
+    transform: scale(1.15);
+    color: map-get($theme-colors, "a-quaternary");
+  }
+}
+
+.wishlist {
+    transition: transform 0.12s ease-in-out;
+
+    &:hover {
+      transform: scale(1.25);
+      color: map-get($theme-colors, "a-danger");
+      
+    }
+  }
+
+.user {
+    transition: transform 0.12s ease-in-out;
+
+    &:hover {
+      transform: scale(1.25);
+      color: map-get($theme-colors, "a-tertiary");
+    }
+  }
+
+  .search {
+    transition: transform 0.12s ease-in-out;
+    
+      &:hover {
+        transform: scale(1.25);
+        color: cadetblue;
+      }
+
+      &:focus {
+        outline: none !important;
+        border: 2px solid map-get($theme-colors, "a-quaternary") !important;
+      }
+  }
+
+    .formLabel {
+      transition: box-shadow 0.2s ease-in-out;
+  
+      &:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
+      }
+  
+      &:focus {
+        outline: none !important;
+        border: 2px solid map-get($theme-colors, "a-quaternary") !important;
+      }
+    }
+
+.person-dropdown {
+  .dropdown-menu {
+    background-color: map-get($theme-colors, "a-secondary");
+    border: 2px solid map-get($theme-colors, "a-quaternary");
+
+    .dropdown-item {
+      color: map-get($theme-colors, "a-primary") !important;
+
+      &:hover,
+      &:focus {
+        background-color: map-get($theme-colors, "a-tertiary");
+        color: map-get($theme-colors, "a-white-gray") !important;
+      }
+    }
+  }
+}
+
+.navbar-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  transition: padding 0.3s ease, box-shadow 0.3s ease;
+
+  &.shrink {
+    padding: 0 !important; 
+    box-shadow: none !important; 
+
+    .navbar {
+      padding: 0.4rem 0 !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+    }
+  }
+
+  .navbar {
+    padding: 1rem 0 !important;
+    box-shadow: none !important;
+  }
+}

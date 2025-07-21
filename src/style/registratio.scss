@@ -1,0 +1,14 @@
+@import "../style/_variables.scss";
+
+.formLabel {
+    transition: box-shadow 0.2s ease-in-out;
+
+    &:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
+    }
+
+    &:focus {
+        outline: none !important;
+        border: 2px solid map-get($theme-colors, "a-quaternary") !important;
+    }
+}

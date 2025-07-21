@@ -2,3 +2,32 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   color: rgba(255, 255, 255, 0.87);
 }
+
+@font-face {
+  font-family: "Arsenica Antiqua";
+  src: url("./assets/fonts/ArsenicaAntiqua.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.arsenica {
+  font-family: "Arsenica Antiqua", serif;
+}
+
+.arsenica-bold {
+  font-family: "Arsenica Antiqua", serif;
+  font-weight: bold;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.pointer-none {
+  pointer-events: none;
+}
+
+.no-select {
+  user-select: none;
+}

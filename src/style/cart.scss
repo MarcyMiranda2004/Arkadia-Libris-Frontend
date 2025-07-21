@@ -1,0 +1,23 @@
+@import "../style/_variables.scss";
+
+.cartBtn {
+    transition: transform 0.12s ease-in-out,
+        box-shadow 0.2s ease-in-out;
+
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+}
+
+.removeBtn {
+    transition: transform 0.12s ease-in-out;
+
+    &:hover {
+        transform: scale(1.10);
+    }
+}

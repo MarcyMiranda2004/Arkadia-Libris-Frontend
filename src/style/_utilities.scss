@@ -1,0 +1,15 @@
+@for $i from 1 through 100 {
+    .w-#{$i} {
+        width: #{$i + '%'};
+    }
+}
+
+@for $i from 1 through 100 {
+    .m-#{$i} {
+        margin: #{$i}px !important;
+    }
+
+    .p-#{$i} {
+        padding: #{$i}px !important;
+    }
+}

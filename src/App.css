@@ -1,12 +1,15 @@
 html,
 body,
 #root {
-  height: 100vh;
-  overflow: hidden;
+  height: 100%;
 }
 
 main {
   height: calc(100vh - 70px);
   overflow-y: auto;
   padding-right: 10px;
+}
+
+.pointer {
+  cursor: pointer;
 }
