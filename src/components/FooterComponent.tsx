@@ -7,7 +7,6 @@ import {
   TwitterX,
   Whatsapp,
 } from "react-bootstrap-icons";
-import logo from "../assets/png/logos/logo-no-bg.svg";
 
 const FooterComponent = () => {
   return (

@@ -20,7 +20,7 @@ import type {
 } from "../../type/backoffice/BackOfficeUserDto";
 import { AuthContext } from "../../context/AuthContext";
 import "../../style/backoffice/backOfficeDashboard.scss";
-import { PencilSquare, TrashFill } from "react-bootstrap-icons";
+import { PencilSquare } from "react-bootstrap-icons";
 
 const API = "http://localhost:8080";
 
@@ -177,7 +177,7 @@ const BackOfficeUsersPage: React.FC = () => {
 
       <Tabs
         activeKey={key}
-        onSelect={(k) => setKey(k || "view")}
+        onSelect={(k) => setKey((k as "view" | "functions") || "view")}
         className="mb-3 border-bottom border-2 border-a-secondary customTubs"
       >
         <Tab eventKey="view" title="Vedi Utenti">

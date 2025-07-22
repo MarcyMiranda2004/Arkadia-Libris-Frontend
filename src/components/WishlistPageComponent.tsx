@@ -15,8 +15,7 @@ import { TrashFill } from "react-bootstrap-icons";
 import "../style/wishlist.scss";
 
 const WishlistPageComponent: React.FC = () => {
-  const { wishlist, loading, error, removeFromWishlist, clearWishlist } =
-    useWishlist();
+  const { wishlist, loading, error, removeFromWishlist } = useWishlist();
   const { addToCart } = useCart();
   const navigate = useNavigate();
 

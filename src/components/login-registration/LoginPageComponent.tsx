@@ -1,6 +1,6 @@
-import React, { useState, useContext, FormEvent } from "react";
+import React, { useState, useContext } from "react";
+import type { FormEvent } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import Container from "react-bootstrap/Container";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";

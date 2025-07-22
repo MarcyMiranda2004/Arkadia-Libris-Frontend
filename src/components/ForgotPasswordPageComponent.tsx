@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import FormEvent from "react";
-import { Container, Form, Button, Alert, Spinner } from "react-bootstrap";
+import type { FormEvent } from "react";
+import { Form, Button, Alert, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../style/password.scss";
 

@@ -1,9 +1,7 @@
 import { Container } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const NotFoundPage = () => {
-  const navigate = useNavigate();
-
   return (
     <Container className="d-flex flex-column align-items-center justify-content-center mt-5">
       <img

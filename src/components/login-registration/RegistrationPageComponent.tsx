@@ -6,14 +6,7 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import {
-  Eye,
-  EyeSlash,
-  Google,
-  Facebook,
-  Instagram,
-  Apple,
-} from "react-bootstrap-icons";
+import { Eye, EyeSlash } from "react-bootstrap-icons";
 import "../../style/registratio.scss";
 
 const RegisterPageComponent: React.FC = () => {
