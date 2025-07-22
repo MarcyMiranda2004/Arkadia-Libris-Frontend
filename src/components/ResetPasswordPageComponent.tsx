@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import FormEvent from "react";
+import type { FormEvent } from "react";
 import { Container, Form, Button, Alert, Spinner } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 

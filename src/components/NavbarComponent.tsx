@@ -10,7 +10,6 @@ import {
   Form,
   Button,
   Image,
-  Offcanvas,
 } from "react-bootstrap";
 import { Search, Heart, Cart, PersonCircle } from "react-bootstrap-icons";
 import logo from "../assets/png/logos/logo-no-write-no-bg.svg";
@@ -27,12 +26,7 @@ const NavbarComponent: React.FC = () => {
 
   const [showCart, setShowCart] = useState(false);
   const totalItems = cart?.items.reduce((sum, i) => sum + i.quantity, 0) || 0;
-  const handleShow = () => {
-    viewCart();
-    setShowCart(true);
-  };
 
-  const handleClose = () => setShowCart(false);
   const handleReload = () => {
     window.location.reload();
   };

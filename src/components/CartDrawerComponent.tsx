@@ -14,7 +14,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ show, onHide }) => {
   const { cart, loading, error, removeItem, clearCart } = useCart();
   const navigate = useNavigate();
 
-  const hasItems = cart?.items?.length > 0;
+  const hasItems = Array.isArray(cart?.items) && cart.items.length > 0;
   const total =
     cart?.items.reduce((sum, item) => sum + item.price * item.quantity, 0) ?? 0;
 
