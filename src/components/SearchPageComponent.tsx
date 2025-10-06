@@ -57,27 +57,29 @@ const SearchPage: React.FC = () => {
   useEffect(() => {
     if (!title) return;
     setLoading(true);
-    fetch(
-      `${API}/products/search?title=${encodeURIComponent(
-        title
-      )}&page=0&size=50`,
-      { headers: authHeader }
-    )
+    const term = encodeURIComponent(title.trim());
+    const url =
+      `${API}/products/search` +
+      `?title=${term}` +
+      `&isbn=${term}` +
+      `&author=${term}` +
+      `&page=0&size=50`;
+
+    fetch(url, { headers: authHeader })
       .then((res) => {
         if (!res.ok) throw new Error(`Errore: ${res.status}`);
         return res.json();
       })
       .then((page) => {
-        const q = title.toLowerCase().trim();
-        const filtered = (page.content as Product[])
-          .filter((p) => p.title.toLowerCase().includes(q))
-          .sort((a, b) =>
+        // non serve più filtrare per title, il backend già ti restituisce solo i matching
+        setProducts(
+          (page.content as Product[]).sort((a, b) =>
             a.title.localeCompare(b.title, undefined, {
               numeric: true,
               sensitivity: "base",
             })
-          );
-        setProducts(filtered);
+          )
+        );
       })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));

@@ -529,6 +529,7 @@ const UserPageComponent: React.FC = () => {
         </Container>
       </Row>
 
+      {/* Elimina Account */}
       <Row className="mt-4 bg-a-secondary p-3 rounded-3 border border-1 border-a-quaternary userInfoTab mb-5">
         <Col className="text-center">
           <Button
